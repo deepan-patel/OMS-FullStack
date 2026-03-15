@@ -1,7 +1,10 @@
+import ProductList from "@/components/web/ProductList"
+
 const Homepage = () => {
   return (
-    <div className='bg-red-500'>
-      Homepage
+    <div className="">
+      HomePage
+      <ProductList />
     </div>
   )
 }
