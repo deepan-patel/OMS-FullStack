@@ -59,11 +59,11 @@ export default function ProductCard({ product }: { product: ProductType }) {
                 <p>Card Footer</p>
 
                 {/* sizing and colour options */}
-                <div className="flex flex-row gap-5">
+                <div className="w-full flex items-center justify-between">
                     <div className="flex flex-col gap-2">
                         <p>Size</p>
                         <Combobox items={product.sizes}>
-                            <ComboboxInput placeholder="size" />
+                            <ComboboxInput placeholder="size" className="w-24" />
                             <ComboboxContent>
                                 <ComboboxEmpty>No items found.</ComboboxEmpty>
                                 <ComboboxList>
@@ -76,6 +76,7 @@ export default function ProductCard({ product }: { product: ProductType }) {
                             </ComboboxContent>
                         </Combobox>
                     </div>
+
                     <div className="flex flex-col gap-2">
                         <p>Color</p>
                         <RadioGroup
