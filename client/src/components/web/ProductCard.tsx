@@ -45,7 +45,7 @@ export default function ProductCard({ product }: { product: ProductType }) {
 
     return (
 
-        <Card className="rounded-lg shadow-lg p-0 m-0">
+        <Card className="rounded-lg shadow-lg p-0 m-0 flex flex-col">
             <CardHeader className="relative aspect-[2/3]">
                 {/* Image goes here */}
                 <Link href={`/products/${product.id}`}>
@@ -58,9 +58,11 @@ export default function ProductCard({ product }: { product: ProductType }) {
                 </Link>
             </CardHeader>
             <CardFooter className="flex flex-col items-start gap-4 pb-5">
-                <CardTitle>{product.name}</CardTitle>
-                <CardDescription>{product.shortDescription}</CardDescription>
-                <p>Card Footer</p>
+                {/* product name and description */}
+                <div className="flex flex-col gap-2">
+                    <CardTitle>{product.name}</CardTitle>
+                    <CardDescription>{product.shortDescription}</CardDescription>
+                </div>
 
                 {/* sizing and colour options */}
                 <div className="w-full flex items-center justify-between">
