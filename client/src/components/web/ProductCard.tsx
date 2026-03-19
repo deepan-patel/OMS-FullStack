@@ -11,21 +11,10 @@ import {
 } from "@/components/ui/card"
 
 import {
-    Combobox,
-    ComboboxContent,
-    ComboboxEmpty,
-    ComboboxInput,
-    ComboboxItem,
-    ComboboxList,
-} from "@/components/ui/combobox"
-
-import {
-    Field,
-    FieldContent,
-    FieldDescription,
-    FieldLabel,
-    FieldTitle,
-} from "@/components/ui/field"
+    NativeSelect,
+    NativeSelectOptGroup,
+    NativeSelectOption,
+} from "@/components/ui/native-select"
 
 import { RadioGroup, RadioGroupItem } from "@/components/ui/radio-group"
 
@@ -34,14 +23,30 @@ import { ShoppingCart } from "lucide-react"
 
 import { ProductType } from "@/types"
 
-import { Label } from "../ui/label"
+
 import Image from "next/image"
 import Link from "next/link"
 import { useState } from "react"
 
 export default function ProductCard({ product }: { product: ProductType }) {
 
-    const [selectedColor, setSelectedColor] = useState(product.colors[0])
+    // const [productColour, setProductColour] = useState(product.colours?.[0] ?? "")
+    // const [productSize, setProductSize] = useState(product.sizes?.[0] ?? "")
+
+
+    const [productType, setProductType] = useState({
+        colour: product.colours?.[0] ?? "",
+        size: product.sizes?.[0] ?? ""
+    })
+
+    const handleProductType = ({ type, value }: { type: "size" | "colour", value: string }) => {
+        setProductType((prev) => ({
+            ...prev,
+            [type]: value
+        }))
+
+        console.log(productType)
+    }
 
     return (
 
@@ -50,7 +55,7 @@ export default function ProductCard({ product }: { product: ProductType }) {
                 {/* Image goes here */}
                 <Link href={`/products/${product.id}`}>
                     <Image
-                        src={product.images[selectedColor]}
+                        src={product.images[productType.colour]}
                         alt={product.name}
                         fill
                         className="object-cover hover:scale-105 transition-transform duration-300 ease-in-out"
@@ -72,18 +77,17 @@ export default function ProductCard({ product }: { product: ProductType }) {
                     <div className="flex flex-col gap-2">
                         <p>Size</p>
                         <div>
-                            <Combobox items={product.sizes} defaultValue={product.sizes[0].toUpperCase()}>
-                                <ComboboxInput placeholder="Size" className="w-24" />
-                                <ComboboxContent>
-                                    <ComboboxList>
-                                        {(item) => (
-                                            <ComboboxItem key={item} value={item}>
-                                                {item.toUpperCase()}
-                                            </ComboboxItem>
-                                        )}
-                                    </ComboboxList>
-                                </ComboboxContent>
-                            </Combobox>
+                            {/* native select */}
+                            <NativeSelect
+                                defaultValue={productType.size}
+                                onChange={(e) => handleProductType({ type: "size", value: e.target.value })}
+                            >
+                                {
+                                    product.sizes.map((size) => (
+                                        <NativeSelectOption key={size} value={size}>{size}</NativeSelectOption>
+                                    ))
+                                }
+                            </NativeSelect>
                         </div>
                     </div>
 
@@ -91,17 +95,17 @@ export default function ProductCard({ product }: { product: ProductType }) {
                         <p>Color</p>
                         <div>
                             <RadioGroup
-                                value={selectedColor}
-                                onValueChange={setSelectedColor}
+                                value={productType.colour}
+                                onValueChange={(value) => handleProductType({ type: "colour", value })}
                                 className="flex flex-row gap-3 items-center"
                             >
-                                {product.colors.map((color) => (
-                                    <div key={color}>
+                                {product.colours.map((colour) => (
+                                    <div key={colour}>
                                         <RadioGroupItem
-                                            value={color}
-                                            id={color}
+                                            value={colour}
+                                            id={colour}
                                             className="flex h-6 w-6 rounded-full border-2 "
-                                            style={{ backgroundColor: color }}
+                                            style={{ backgroundColor: colour }}
                                         />
                                     </div>
                                 ))}
@@ -119,7 +123,7 @@ export default function ProductCard({ product }: { product: ProductType }) {
                     </Button>
                 </div>
             </CardFooter>
-        </Card>
+        </Card >
 
     )
 }

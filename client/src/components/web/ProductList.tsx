@@ -14,7 +14,7 @@ export default function ProductList() {
                 "Lorem ipsum dolor sit amet consect adipisicing elit lorem ipsum dolor sit. Lorem ipsum dolor sit amet consect adipisicing elit lorem ipsum dolor sit. Lorem ipsum dolor sit amet consect adipisicing elit lorem ipsum dolor sit.",
             price: 39.99,
             sizes: ["s", "m", "l", "xl", "xxl"],
-            colors: ["gray", "purple", "green"],
+            colours: ["gray", "purple", "green"],
             images: {
                 gray: "/products/1g.png",
                 purple: "/products/1p.png",
@@ -30,7 +30,7 @@ export default function ProductList() {
                 "Lorem ipsum dolor sit amet consect adipisicing elit lorem ipsum dolor sit. Lorem ipsum dolor sit amet consect adipisicing elit lorem ipsum dolor sit. Lorem ipsum dolor sit amet consect adipisicing elit lorem ipsum dolor sit.",
             price: 59.99,
             sizes: ["s", "m", "l", "xl"],
-            colors: ["gray", "green"],
+            colours: ["gray", "green"],
             images: { gray: "/products/2g.png", green: "/products/2gr.png" },
         },
         {
@@ -42,7 +42,7 @@ export default function ProductList() {
                 "Lorem ipsum dolor sit amet consect adipisicing elit lorem ipsum dolor sit. Lorem ipsum dolor sit amet consect adipisicing elit lorem ipsum dolor sit. Lorem ipsum dolor sit amet consect adipisicing elit lorem ipsum dolor sit.",
             price: 69.99,
             sizes: ["s", "m", "l"],
-            colors: ["green", "blue", "black"],
+            colours: ["green", "blue", "black"],
             images: {
                 green: "/products/3gr.png",
                 blue: "/products/3b.png",
@@ -58,7 +58,7 @@ export default function ProductList() {
                 "Lorem ipsum dolor sit amet consect adipisicing elit lorem ipsum dolor sit. Lorem ipsum dolor sit amet consect adipisicing elit lorem ipsum dolor sit. Lorem ipsum dolor sit amet consect adipisicing elit lorem ipsum dolor sit.",
             price: 29.99,
             sizes: ["s", "m", "l"],
-            colors: ["white", "pink"],
+            colours: ["white", "pink"],
             images: { white: "/products/4w.png", pink: "/products/4p.png" },
         },
         {
@@ -70,7 +70,7 @@ export default function ProductList() {
                 "Lorem ipsum dolor sit amet consect adipisicing elit lorem ipsum dolor sit. Lorem ipsum dolor sit amet consect adipisicing elit lorem ipsum dolor sit. Lorem ipsum dolor sit amet consect adipisicing elit lorem ipsum dolor sit.",
             price: 49.99,
             sizes: ["s", "m", "l"],
-            colors: ["red", "orange", "black"],
+            colours: ["red", "orange", "black"],
             images: {
                 red: "/products/5r.png",
                 orange: "/products/5o.png",
@@ -86,7 +86,7 @@ export default function ProductList() {
                 "Lorem ipsum dolor sit amet consect adipisicing elit lorem ipsum dolor sit. Lorem ipsum dolor sit amet consect adipisicing elit lorem ipsum dolor sit. Lorem ipsum dolor sit amet consect adipisicing elit lorem ipsum dolor sit.",
             price: 59.99,
             sizes: ["40", "42", "43", "44"],
-            colors: ["gray", "white"],
+            colours: ["gray", "white"],
             images: { gray: "/products/6g.png", white: "/products/6w.png" },
         },
         {
@@ -98,7 +98,7 @@ export default function ProductList() {
                 "Lorem ipsum dolor sit amet consect adipisicing elit lorem ipsum dolor sit. Lorem ipsum dolor sit amet consect adipisicing elit lorem ipsum dolor sit. Lorem ipsum dolor sit amet consect adipisicing elit lorem ipsum dolor sit.",
             price: 69.99,
             sizes: ["40", "42", "43"],
-            colors: ["gray", "pink"],
+            colours: ["gray", "pink"],
             images: { gray: "/products/7g.png", pink: "/products/7p.png" },
         },
         {
@@ -110,7 +110,7 @@ export default function ProductList() {
                 "Lorem ipsum dolor sit amet consect adipisicing elit lorem ipsum dolor sit. Lorem ipsum dolor sit amet consect adipisicing elit lorem ipsum dolor sit. Lorem ipsum dolor sit amet consect adipisicing elit lorem ipsum dolor sit.",
             price: 59.99,
             sizes: ["s", "m", "l"],
-            colors: ["blue", "green"],
+            colours: ["blue", "green"],
             images: { blue: "/products/8b.png", green: "/products/8gr.png" },
         },
     ];
