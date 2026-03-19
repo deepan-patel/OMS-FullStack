@@ -36,6 +36,7 @@ import { ProductType } from "@/types"
 
 import { Label } from "../ui/label"
 import Image from "next/image"
+import Link from "next/link"
 import { useState } from "react"
 
 export default function ProductCard({ product }: { product: ProductType }) {
@@ -43,17 +44,20 @@ export default function ProductCard({ product }: { product: ProductType }) {
     const [selectedColor, setSelectedColor] = useState(product.colors[0])
 
     return (
-        <Card>
-            <CardHeader>
+
+        <Card className="rounded-lg shadow-lg p-0 m-0">
+            <CardHeader className="relative aspect-[2/3]">
                 {/* Image goes here */}
-                <Image
-                    src={product.images[selectedColor]}
-                    alt={product.name}
-                    width={500}
-                    height={500}
-                />
+                <Link href={`/products/${product.id}`}>
+                    <Image
+                        src={product.images[selectedColor]}
+                        alt={product.name}
+                        fill
+                        className="object-cover hover:scale-105 transition-transform duration-300 ease-in-out"
+                    />
+                </Link>
             </CardHeader>
-            <CardFooter className="flex flex-col items-start gap-4">
+            <CardFooter className="flex flex-col items-start gap-4 pb-5">
                 <CardTitle>{product.name}</CardTitle>
                 <CardDescription>{product.shortDescription}</CardDescription>
                 <p>Card Footer</p>
@@ -62,14 +66,13 @@ export default function ProductCard({ product }: { product: ProductType }) {
                 <div className="w-full flex items-center justify-between">
                     <div className="flex flex-col gap-2">
                         <p>Size</p>
-                        <Combobox items={product.sizes}>
-                            <ComboboxInput placeholder="size" className="w-24" />
+                        <Combobox items={product.sizes} defaultValue={product.sizes[0].toUpperCase()}>
+                            <ComboboxInput placeholder="Size" className="w-24" />
                             <ComboboxContent>
-                                <ComboboxEmpty>No items found.</ComboboxEmpty>
                                 <ComboboxList>
                                     {(item) => (
                                         <ComboboxItem key={item} value={item}>
-                                            {item}
+                                            {item.toUpperCase()}
                                         </ComboboxItem>
                                     )}
                                 </ComboboxList>
@@ -89,7 +92,7 @@ export default function ProductCard({ product }: { product: ProductType }) {
                                     <RadioGroupItem
                                         value={color}
                                         id={color}
-                                        className="flex h-6 w-6 rounded-full border-2"
+                                        className="flex h-6 w-6 rounded-full border-2 "
                                         style={{ backgroundColor: color }}
                                     />
                                 </div>
@@ -111,5 +114,6 @@ export default function ProductCard({ product }: { product: ProductType }) {
                 </div>
             </CardFooter>
         </Card>
+
     )
 }
