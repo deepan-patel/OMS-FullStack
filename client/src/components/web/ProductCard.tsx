@@ -30,9 +30,6 @@ import { useState } from "react"
 
 export default function ProductCard({ product }: { product: ProductType }) {
 
-    // const [productColour, setProductColour] = useState(product.colours?.[0] ?? "")
-    // const [productSize, setProductSize] = useState(product.sizes?.[0] ?? "")
-
 
     const [productType, setProductType] = useState({
         colour: product.colours?.[0] ?? "",
@@ -104,7 +101,7 @@ export default function ProductCard({ product }: { product: ProductType }) {
                                         <RadioGroupItem
                                             value={colour}
                                             id={colour}
-                                            className="flex h-6 w-6 rounded-full border-2 "
+                                            className="flex h-6 w-6 rounded-full border-2 cursor-pointer"
                                             style={{ backgroundColor: colour }}
                                         />
                                     </div>
