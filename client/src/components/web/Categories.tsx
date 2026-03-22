@@ -117,7 +117,7 @@ export default function Categories() {
                     ))}
                 </div>
             </div>
-
+            {/* 
             <div className="flex flex-row justify-end">
                 <div className="flex flex-row gap-2 items-center">
                     <p>Sort By:</p>
@@ -136,7 +136,7 @@ export default function Categories() {
                     </Combobox>
 
                 </div>
-            </div>
+            </div> */}
         </div>
     )
 }

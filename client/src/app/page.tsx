@@ -1,10 +1,13 @@
 import ProductList from "@/components/web/ProductList"
 
-const Homepage = () => {
+
+const Homepage = async ({ searchParams }: { searchParams: Promise<{ category: string }> }) => {
+
+  const category = (await searchParams).category
+
   return (
     <div className="">
-      HomePage
-      <ProductList />
+      <ProductList params="homepage" category={category} />
     </div>
   )
 }

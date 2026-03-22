@@ -2,6 +2,7 @@ import Link from "next/link";
 import { Bell, Home, ShoppingBag, ShoppingCart } from "lucide-react";
 import { buttonVariants } from "../ui/button";
 import SearchBar from "./SearchBar";
+import ShoppingCartIcon from "./ShoppingCartIcon";
 
 export default function NavBar() {
     return (
@@ -16,7 +17,7 @@ export default function NavBar() {
                 <SearchBar />
                 <Link href="/"><Home className="hover:text-primary text-gray-500" /></Link>
                 <Bell className="hover:text-primary w-9 h-9 text-gray-500" />
-                <ShoppingCart className="hover:text-primary w-9 h-9 text-gray-500" />
+                <ShoppingCartIcon />
                 <Link className={buttonVariants({ variant: "default", className: "hover:text-primary" })} href="/sign-in" >Sign In</Link>
             </div>
 

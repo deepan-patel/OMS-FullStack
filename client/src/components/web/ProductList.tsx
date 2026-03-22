@@ -1,8 +1,10 @@
 import { ProductType } from "@/types";
 import Categories from "./Categories";
 import ProductCard from "./ProductCard";
+import Link from "next/link";
+import Filter from "./Filter";
 
-export default function ProductList() {
+export default function ProductList({ category, params }: { category: string, params: "homepage" | "products" }) {
     // TEMPORARY
     const products: ProductsType = [
         {
@@ -116,15 +118,23 @@ export default function ProductList() {
     ];
 
     return (
-        <div className="w-full">
-            <Categories />
-            <div className="grid grid-cols-1 sm:grid-cols-2 xl:grid-cols-3 2xl:grid-cols-4 gap-12 mt-5">
-                {
-                    products.map((product) => (
-                        <ProductCard key={product.id} product={product} />
-                    ))
-                }
+        <div>
+            <div className="w-full flex flex-col gap-2">
+                <Categories />
+                {params === "products" && <Filter />}
+                <div className="grid grid-cols-1 sm:grid-cols-2 xl:grid-cols-3 2xl:grid-cols-4 gap-12 mt-5">
+                    {
+                        products.map((product) => (
+                            <ProductCard key={product.id} product={product} />
+                        ))
+                    }
+                </div>
+                <Link href={category ? `/products?category=${category}` : "/products"} className="flex flex-row justify-end mt-5 underline text-sm ">
+                    View All Products
+                </Link>
             </div>
+
+
         </div>
     )
 }
