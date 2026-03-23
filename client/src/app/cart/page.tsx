@@ -3,6 +3,7 @@
 import { useRouter, useSearchParams } from "next/navigation"
 import { CartItemsType } from "@/types";
 import { cn } from "@/lib/utils"
+import { useState } from "react";
 
 import { Separator } from "@/components/ui/separator"
 
@@ -20,6 +21,9 @@ import {
     AccordionItem,
     AccordionTrigger,
 } from "@/components/ui/accordion"
+
+import ShippingForm from "@/components/forms/ShippingForm";
+import PaymentForm from "@/components/forms/PaymentForm";
 
 
 import Image from "next/image";
@@ -93,6 +97,8 @@ export default function CartPage() {
 
     const activeStep = parseInt(searchParams.get("step") || "1")
 
+    const [shippingForm, setShippingForm] = useState(null);
+
     return (
 
         <div className="flex flex-col gap-8 items-center justify-center mt-12">
@@ -120,68 +126,106 @@ export default function CartPage() {
 
             {/* main div */}
 
-            <div className="flex flex-row gap-8 w-full">
+            <div className="flex flex-col lg:flex-row gap-8 w-full max-w-7xl px-4">
                 <div className="w-full lg:w-7/12 flex flex-col gap-8">
-                    <h1 className="text-2xl font-medium flex items-start justify-start">Cart Items</h1>
 
-                    <div className="flex flex-col gap-2">
-                        {
-                            cartItems.map((item) => (
-                                <Card key={item.id} className="flex flex-row">
-                                    <CardHeader className="relative w-[200px] h-[200px] shrink-0">
-                                        <Image
-                                            src={item.images[item.selectedColor]}
-                                            alt={item.name}
-                                            fill
-                                            className="object-contain"
-                                        />
-                                    </CardHeader>
-                                    <CardContent className="flex-1 flex-col">
-                                        <div>
-                                            <p className="text-sm ">{item.name}</p>
-                                            <p className="text-sm text-muted-foreground">Quantity: {item.quantity}</p>
-                                            <p className="text-sm text-muted-foreground">Size: {item.selectedSize}</p>
-                                            <p className="text-sm text-muted-foreground">Color: {item.selectedColor}</p>
-                                        </div>
+                    {
+                        activeStep === 1 && (
+                            <>
+                                <h1 className="text-2xl font-medium flex items-start justify-start">Cart Items</h1>
 
-                                    </CardContent>
-                                    <CardFooter>
-                                        <span className="bg-red-300 p-1 rounded-full hover:animate-pulse"><Trash2 className="text-red-500 cursor-pointer h-5 w-5" /></span>
-                                    </CardFooter>
-                                </Card>
-                            ))
-                        }
+                                <div className="flex flex-col gap-2">
+                                    {
+                                        cartItems.map((item) => (
+                                            <Card key={item.id} className="flex flex-row">
+                                                <CardHeader className="relative w-[200px] h-[200px] shrink-0">
+                                                    <Image
+                                                        src={item.images[item.selectedColor]}
+                                                        alt={item.name}
+                                                        fill
+                                                        className="object-contain"
+                                                    />
+                                                </CardHeader>
+                                                <CardContent className="flex-1 flex-col text-sm text-muted-foreground">
+                                                    <div>
+                                                        <p className="text-base font-medium text-foreground">{item.name}</p>
+                                                        <p>Quantity: {item.quantity}</p>
+                                                        <p>Size: {item.selectedSize}</p>
+                                                        <p>Color: {item.selectedColor}</p>
+                                                    </div>
 
-                    </div>
+                                                </CardContent>
+                                                <CardFooter>
+                                                    <span className="bg-red-300 p-1 rounded-full hover:animate-pulse"><Trash2 className="text-red-500 cursor-pointer h-5 w-5" /></span>
+                                                </CardFooter>
+                                            </Card>
+                                        ))
+                                    }
+
+                                </div>
+
+                            </>
+
+                        )
+                    }
+
+                    {
+                        activeStep === 2 && (
+                            <>
+                                <h1 className="text-2xl font-medium flex items-start justify-start">Shipping Information</h1>
+                                <ShippingForm />
+                            </>
+                        )
+                    }
+
+                    {
+                        activeStep === 3 && (
+                            <>
+                                <h1 className="text-2xl font-medium flex items-start justify-start">Payment Information</h1>
+                                <PaymentForm />
+                            </>
+                        )
+                    }
+
 
                 </div>
 
 
                 <div className="w-full lg:w-5/12 flex flex-col gap-8">
-                    <h1 className="text-2xl font-medium flex items-start justify-start gap-2">Order Summary</h1>
+
+                    <h1 className="text-2xl font-medium flex items-start justify-start">Order Summary</h1>
+
                     <Card>
 
                         <CardContent className="flex flex-col">
 
-                            <div>
-                                <Accordion
-                                    type="single"
-                                    collapsible
-                                    defaultValue="Promo"
-                                    className="max-w-lg"
-                                >
 
-                                    <AccordionItem value="Promo">
-                                        <AccordionTrigger>Promo Code</AccordionTrigger>
-                                        <AccordionContent>
-                                            <div className="flex flex-row gap-2">
-                                                <Input placeholder="Promo Code" />
-                                                <Button>Apply</Button>
-                                            </div>
-                                        </AccordionContent>
-                                    </AccordionItem>
-                                </Accordion>
-                            </div>
+                            {/* promo code input */}
+
+                            {
+                                activeStep == 1 && (
+                                    <div>
+                                        <Accordion
+                                            type="single"
+                                            collapsible
+                                            defaultValue="Promo"
+                                            className="max-w-lg"
+                                        >
+
+                                            <AccordionItem value="Promo">
+                                                <AccordionTrigger>Promo Code</AccordionTrigger>
+                                                <AccordionContent>
+                                                    <div className="flex flex-row gap-2">
+                                                        <Input placeholder="Promo Code" />
+                                                        <Button>Apply</Button>
+                                                    </div>
+                                                </AccordionContent>
+                                            </AccordionItem>
+                                        </Accordion>
+                                    </div>
+                                )
+                            }
+
 
                             <div className="flex flex-row justify-between">
                                 <p>Subtotal</p>
@@ -225,10 +269,14 @@ export default function CartPage() {
                                 </span>
                             </div>
 
+                            {
+                                activeStep === 1 && (
+                                    <Button onClick={() => router.push("/cart?step=2", { scroll: false })} className="w-full">
+                                        Continue <ArrowRight data-icon="inline-end" />
+                                    </Button>
+                                )
+                            }
 
-                            <Button className="w-full">
-                                Continue <ArrowRight data-icon="inline-end" />
-                            </Button>
 
                         </CardFooter>
 
