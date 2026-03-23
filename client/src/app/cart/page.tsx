@@ -4,18 +4,29 @@ import { useRouter, useSearchParams } from "next/navigation"
 import { CartItemsType } from "@/types";
 import { cn } from "@/lib/utils"
 
+import { Separator } from "@/components/ui/separator"
 
 import {
     Card,
-    CardAction,
     CardContent,
-    CardDescription,
     CardFooter,
     CardHeader,
-    CardTitle,
+
 } from "@/components/ui/card"
+
+import {
+    Accordion,
+    AccordionContent,
+    AccordionItem,
+    AccordionTrigger,
+} from "@/components/ui/accordion"
+
+
 import Image from "next/image";
-import { Trash, Trash2 } from "lucide-react";
+import { Trash2, ArrowRight } from "lucide-react";
+
+import { Button } from "@/components/ui/button";
+import { Input } from "@/components/ui/input";
 
 export default function CartPage() {
 
@@ -108,32 +119,120 @@ export default function CartPage() {
             </div>
 
             {/* main div */}
-            <div className="flex flex-col gap-8">
-                <h1 className="text-2xl font-medium flex items-start justify-start">Cart Items</h1>
 
-                <div className="flex flex-col gap-2">
-                    {
-                        cartItems.map((item) => (
-                            <Card key={item.id} className="flex flex-row">
-                                <CardHeader>
-                                    <Image src={item.images.gray} alt={item.name} width={100} height={100} />
-                                </CardHeader>
-                                <CardContent className="flex flex-col">
-                                    <div>
-                                        <p className="text-sm ">{item.name}</p>
-                                        <p className="text-sm text-muted-foreground">{item.shortDescription}</p>
-                                        <p className="text-sm text-muted-foreground">{item.selectedSize}</p>
-                                        <p className="text-sm text-muted-foreground">{item.selectedColor}</p>
-                                    </div>
+            <div className="flex flex-row gap-8 w-full">
+                <div className="w-full lg:w-7/12 flex flex-col gap-8">
+                    <h1 className="text-2xl font-medium flex items-start justify-start">Cart Items</h1>
 
-                                </CardContent>
-                                <CardFooter>
-                                    <span className="bg-red-300 p-1 rounded-full hover:animate-pulse"><Trash2 className="text-red-500 cursor-pointer h-4 w-4" /></span>
-                                </CardFooter>
-                            </Card>
-                        ))
-                    }
+                    <div className="flex flex-col gap-2">
+                        {
+                            cartItems.map((item) => (
+                                <Card key={item.id} className="flex flex-row">
+                                    <CardHeader className="relative w-[200px] h-[200px] shrink-0">
+                                        <Image
+                                            src={item.images[item.selectedColor]}
+                                            alt={item.name}
+                                            fill
+                                            className="object-contain"
+                                        />
+                                    </CardHeader>
+                                    <CardContent className="flex-1 flex-col">
+                                        <div>
+                                            <p className="text-sm ">{item.name}</p>
+                                            <p className="text-sm text-muted-foreground">Quantity: {item.quantity}</p>
+                                            <p className="text-sm text-muted-foreground">Size: {item.selectedSize}</p>
+                                            <p className="text-sm text-muted-foreground">Color: {item.selectedColor}</p>
+                                        </div>
 
+                                    </CardContent>
+                                    <CardFooter>
+                                        <span className="bg-red-300 p-1 rounded-full hover:animate-pulse"><Trash2 className="text-red-500 cursor-pointer h-5 w-5" /></span>
+                                    </CardFooter>
+                                </Card>
+                            ))
+                        }
+
+                    </div>
+
+                </div>
+
+
+                <div className="w-full lg:w-5/12 flex flex-col gap-8">
+                    <h1 className="text-2xl font-medium flex items-start justify-start gap-2">Order Summary</h1>
+                    <Card>
+
+                        <CardContent className="flex flex-col">
+
+                            <div>
+                                <Accordion
+                                    type="single"
+                                    collapsible
+                                    defaultValue="Promo"
+                                    className="max-w-lg"
+                                >
+
+                                    <AccordionItem value="Promo">
+                                        <AccordionTrigger>Promo Code</AccordionTrigger>
+                                        <AccordionContent>
+                                            <div className="flex flex-row gap-2">
+                                                <Input placeholder="Promo Code" />
+                                                <Button>Apply</Button>
+                                            </div>
+                                        </AccordionContent>
+                                    </AccordionItem>
+                                </Accordion>
+                            </div>
+
+                            <div className="flex flex-row justify-between">
+                                <p>Subtotal</p>
+                                <span>
+                                    ${cartItems.reduce((total, item) => total + item.price * item.quantity, 0).toFixed(2)}
+                                </span>
+                            </div>
+
+                            <div className="flex flex-row justify-between">
+                                <p>Discount (10%)</p>
+                                <span className="text-red-500">
+                                    -${cartItems.reduce((total, item) => total + item.price * item.quantity * 0.1, 0).toFixed(2)}
+                                </span>
+                            </div>
+
+                            <div className="flex flex-row justify-between">
+                                <p>Shipping Fee</p>
+                                <span>
+                                    $10.00
+                                </span>
+                            </div>
+
+                            <div className="flex flex-row justify-between">
+                                <p>Tax</p>
+                                <span>
+                                    ${cartItems.reduce((total, item) => total + item.price * item.quantity * 0.13, 0).toFixed(2)}
+                                </span>
+                            </div>
+
+
+
+                        </CardContent>
+                        <CardFooter className="flex flex-col gap-8">
+                            <Separator />
+
+                            {/* total */}
+                            <div className="w-full flex flex-row justify-between">
+                                <p>Total</p>
+                                <span>
+                                    ${cartItems.reduce((total, item) => total + item.price * item.quantity - item.price * item.quantity * 0.1 + 10 + item.price * item.quantity * 0.13, 0).toFixed(2)}
+                                </span>
+                            </div>
+
+
+                            <Button className="w-full">
+                                Continue <ArrowRight data-icon="inline-end" />
+                            </Button>
+
+                        </CardFooter>
+
+                    </Card>
                 </div>
 
             </div>
