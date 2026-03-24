@@ -63,7 +63,7 @@ export default function CartPage() {
 
     const [shippingForm, setShippingForm] = useState<ShippingFormInputs | null>(null);
 
-    const { cart } = useCartStore();
+    const { cart, removeFromCart } = useCartStore();
 
     const TodayDate = "2026-03-24";
 
@@ -145,7 +145,19 @@ export default function CartPage() {
 
                                                                 </CardContent>
                                                                 <CardFooter>
-                                                                    <span className="bg-red-300 p-1 rounded-full hover:animate-pulse"><Trash2 className="text-red-500 cursor-pointer h-5 w-5" /></span>
+                                                                    <span onClick={() => removeFromCart({
+                                                                        id: item.id,
+                                                                        name: item.name,
+                                                                        shortDescription: item.shortDescription,
+                                                                        description: item.description,
+                                                                        price: item.price,
+                                                                        sizes: item.sizes,
+                                                                        colours: item.colours,
+                                                                        images: item.images,
+                                                                        quantity: item.quantity,
+                                                                        selectedSize: item.selectedSize,
+                                                                        selectedColor: item.selectedColor,
+                                                                    })} className="bg-red-300 p-1 rounded-full hover:animate-pulse"><Trash2 className="text-red-500 cursor-pointer h-5 w-5" /></span>
                                                                 </CardFooter>
                                                             </Card>
                                                         ))
