@@ -17,4 +17,16 @@ export type CartItemType = ProductType & {
     selectedColor: string;
 };
 
+
+// Cart Store Types
 export type CartItemsType = CartItemType[];
+
+export type CartStoreType = {
+    cart: CartItemsType;
+};
+
+export type CartStoreActionsType = {
+    addToCart: (product: CartItemType) => void;
+    removeFromCart: (product: CartItemType) => void;
+    clearCart: () => void;
+}

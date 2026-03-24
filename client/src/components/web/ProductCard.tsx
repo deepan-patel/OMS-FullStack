@@ -27,6 +27,7 @@ import { ProductType } from "@/types"
 import Image from "next/image"
 import Link from "next/link"
 import { useState } from "react"
+import useCartStore from "@/stores/CartStore";
 
 export default function ProductCard({ product }: { product: ProductType }) {
 
@@ -43,6 +44,17 @@ export default function ProductCard({ product }: { product: ProductType }) {
         }))
 
         console.log(productType)
+    }
+
+    const { addToCart } = useCartStore();
+
+    const handleAddToCart = () => {
+        addToCart({
+            ...product,
+            selectedSize: productType.size,
+            selectedColor: productType.colour,
+            quantity: 1
+        })
     }
 
     return (
@@ -114,7 +126,7 @@ export default function ProductCard({ product }: { product: ProductType }) {
 
                 {/* product pricing and add to cart */}
                 <div className="w-full">
-                    <Button className="w-full">
+                    <Button onClick={handleAddToCart} className="w-full">
                         <ShoppingCart />
                         Add to Cart
                     </Button>
