@@ -1,7 +1,14 @@
+"use client"
+import { Card, CardHeader, CardTitle, CardContent } from "../ui/card"
 export default function PaymentForm() {
     return (
-        <div>
-            <h1>Payment Form</h1>
-        </div>
+        <Card>
+            <CardHeader>
+                <CardTitle>Payment Information</CardTitle>
+            </CardHeader>
+            <CardContent>
+
+            </CardContent>
+        </Card>
     )
 }

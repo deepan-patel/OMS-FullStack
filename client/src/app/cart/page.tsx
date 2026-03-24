@@ -7,6 +7,8 @@ import { useState } from "react";
 
 import { Separator } from "@/components/ui/separator"
 
+import { ShippingFormInputs } from "@/app/ZodSchemas/Shipping";
+
 import {
     Card,
     CardContent,
@@ -43,7 +45,7 @@ export default function CartPage() {
                 "Lorem ipsum dolor sit amet consect adipisicing elit lorem ipsum dolor sit.",
             description:
                 "Lorem ipsum dolor sit amet consect adipisicing elit lorem ipsum dolor sit. Lorem ipsum dolor sit amet consect adipisicing elit lorem ipsum dolor sit. Lorem ipsum dolor sit amet consect adipisicing elit lorem ipsum dolor sit.",
-            price: 39.9,
+            price: 39.99,
             sizes: ["s", "m", "l", "xl", "xxl"],
             colours: ["gray", "purple", "green"],
             images: {
@@ -62,7 +64,7 @@ export default function CartPage() {
                 "Lorem ipsum dolor sit amet consect adipisicing elit lorem ipsum dolor sit.",
             description:
                 "Lorem ipsum dolor sit amet consect adipisicing elit lorem ipsum dolor sit. Lorem ipsum dolor sit amet consect adipisicing elit lorem ipsum dolor sit. Lorem ipsum dolor sit amet consect adipisicing elit lorem ipsum dolor sit.",
-            price: 59.9,
+            price: 59.99,
             sizes: ["s", "m", "l", "xl"],
             colours: ["gray", "green"],
             images: { gray: "/products/2g.png", green: "/products/2gr.png" },
@@ -97,7 +99,7 @@ export default function CartPage() {
 
     const activeStep = parseInt(searchParams.get("step") || "1")
 
-    const [shippingForm, setShippingForm] = useState(null);
+    const [shippingForm, setShippingForm] = useState<ShippingFormInputs | null>(null);
 
     return (
 
@@ -146,12 +148,15 @@ export default function CartPage() {
                                                         className="object-contain"
                                                     />
                                                 </CardHeader>
-                                                <CardContent className="flex-1 flex-col text-sm text-muted-foreground">
+                                                <CardContent className="flex flex-1 flex-col text-sm text-muted-foreground justify-between ">
                                                     <div>
                                                         <p className="text-base font-medium text-foreground">{item.name}</p>
                                                         <p>Quantity: {item.quantity}</p>
                                                         <p>Size: {item.selectedSize}</p>
                                                         <p>Color: {item.selectedColor}</p>
+                                                    </div>
+                                                    <div>
+                                                        <p className="text-base font-large text-foreground">${item.price}</p>
                                                     </div>
 
                                                 </CardContent>
@@ -173,7 +178,7 @@ export default function CartPage() {
                         activeStep === 2 && (
                             <>
                                 <h1 className="text-2xl font-medium flex items-start justify-start">Shipping Information</h1>
-                                <ShippingForm />
+                                <ShippingForm setShippingForm={setShippingForm} />
                             </>
                         )
                     }
