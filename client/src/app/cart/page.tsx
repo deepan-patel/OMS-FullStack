@@ -29,10 +29,11 @@ import PaymentForm from "@/components/forms/PaymentForm";
 
 
 import Image from "next/image";
-import { Trash2, ArrowRight } from "lucide-react";
+import { Trash2, ArrowRight, Truck, ShoppingBag } from "lucide-react";
 
-import { Button } from "@/components/ui/button";
+import { Button, buttonVariants } from "@/components/ui/button";
 import { Input } from "@/components/ui/input";
+import Link from "next/link";
 
 export default function CartPage() {
 
@@ -101,6 +102,8 @@ export default function CartPage() {
 
     const [shippingForm, setShippingForm] = useState<ShippingFormInputs | null>(null);
 
+    const TodayDate = "2026-03-24";
+
     return (
 
         <div className="flex flex-col gap-8 items-center justify-center mt-12">
@@ -129,164 +132,202 @@ export default function CartPage() {
             {/* main div */}
 
             <div className="flex flex-col lg:flex-row gap-8 w-full max-w-7xl px-4">
-                <div className="w-full lg:w-7/12 flex flex-col gap-8">
 
-                    {
-                        activeStep === 1 && (
-                            <>
-                                <h1 className="text-2xl font-medium flex items-start justify-start">Cart Items</h1>
+                {activeStep !== 4 &&
+                    <div className="w-full lg:w-7/12 flex flex-col gap-8">
+                        {
+                            activeStep === 1 && (
+                                <>
+                                    <h1 className="text-2xl font-medium flex items-start justify-start">Cart Items</h1>
 
-                                <div className="flex flex-col gap-2">
+                                    <div className="flex flex-col gap-2">
+                                        {
+                                            cartItems.map((item) => (
+                                                <Card key={item.id} className="flex flex-row">
+                                                    <CardHeader className="relative w-[200px] h-[200px] shrink-0">
+                                                        <Image
+                                                            src={item.images[item.selectedColor]}
+                                                            alt={item.name}
+                                                            fill
+                                                            className="object-contain"
+                                                        />
+                                                    </CardHeader>
+                                                    <CardContent className="flex flex-1 flex-col text-sm text-muted-foreground justify-between ">
+                                                        <div>
+                                                            <p className="text-base font-medium text-foreground">{item.name}</p>
+                                                            <p>Quantity: {item.quantity}</p>
+                                                            <p>Size: {item.selectedSize}</p>
+                                                            <p>Color: {item.selectedColor}</p>
+                                                        </div>
+                                                        <div>
+                                                            <p className="text-base font-large text-foreground">${item.price}</p>
+                                                        </div>
+
+                                                    </CardContent>
+                                                    <CardFooter>
+                                                        <span className="bg-red-300 p-1 rounded-full hover:animate-pulse"><Trash2 className="text-red-500 cursor-pointer h-5 w-5" /></span>
+                                                    </CardFooter>
+                                                </Card>
+                                            ))
+                                        }
+
+                                    </div>
+
+                                </>
+
+                            )
+                        }
+
+                        {
+                            activeStep === 2 && (
+                                <>
+                                    <h1 className="text-2xl font-medium flex items-start justify-start">Shipping Information</h1>
+                                    <ShippingForm setShippingForm={setShippingForm} />
+                                </>
+                            )
+                        }
+
+                        {
+                            activeStep === 3 && (
+                                <>
+                                    <h1 className="text-2xl font-medium flex items-start justify-start">Payment Information</h1>
+                                    <PaymentForm />
+                                </>
+                            )
+                        }
+
+
+                    </div>
+                }
+
+                {
+                    activeStep !== 4 && (
+                        <div className="w-full lg:w-5/12 flex flex-col gap-8">
+
+                            <h1 className="text-2xl font-medium flex items-start justify-start">Order Summary</h1>
+
+                            <Card>
+
+                                <CardContent className="flex flex-col">
+
+
+                                    {/* promo code input */}
+
                                     {
-                                        cartItems.map((item) => (
-                                            <Card key={item.id} className="flex flex-row">
-                                                <CardHeader className="relative w-[200px] h-[200px] shrink-0">
-                                                    <Image
-                                                        src={item.images[item.selectedColor]}
-                                                        alt={item.name}
-                                                        fill
-                                                        className="object-contain"
-                                                    />
-                                                </CardHeader>
-                                                <CardContent className="flex flex-1 flex-col text-sm text-muted-foreground justify-between ">
-                                                    <div>
-                                                        <p className="text-base font-medium text-foreground">{item.name}</p>
-                                                        <p>Quantity: {item.quantity}</p>
-                                                        <p>Size: {item.selectedSize}</p>
-                                                        <p>Color: {item.selectedColor}</p>
-                                                    </div>
-                                                    <div>
-                                                        <p className="text-base font-large text-foreground">${item.price}</p>
-                                                    </div>
+                                        activeStep == 1 && (
+                                            <div>
+                                                <Accordion
+                                                    type="single"
+                                                    collapsible
+                                                    defaultValue="Promo"
+                                                    className="max-w-lg"
+                                                >
 
-                                                </CardContent>
-                                                <CardFooter>
-                                                    <span className="bg-red-300 p-1 rounded-full hover:animate-pulse"><Trash2 className="text-red-500 cursor-pointer h-5 w-5" /></span>
-                                                </CardFooter>
-                                            </Card>
-                                        ))
+                                                    <AccordionItem value="Promo">
+                                                        <AccordionTrigger>Promo Code</AccordionTrigger>
+                                                        <AccordionContent>
+                                                            <div className="flex flex-row gap-2">
+                                                                <Input placeholder="Promo Code" />
+                                                                <Button>Apply</Button>
+                                                            </div>
+                                                        </AccordionContent>
+                                                    </AccordionItem>
+                                                </Accordion>
+                                            </div>
+                                        )
                                     }
+
+
+                                    <div className="flex flex-row justify-between">
+                                        <p>Subtotal</p>
+                                        <span>
+                                            ${cartItems.reduce((total, item) => total + item.price * item.quantity, 0).toFixed(2)}
+                                        </span>
+                                    </div>
+
+                                    <div className="flex flex-row justify-between">
+                                        <p>Discount (10%)</p>
+                                        <span className="text-red-500">
+                                            -${cartItems.reduce((total, item) => total + item.price * item.quantity * 0.1, 0).toFixed(2)}
+                                        </span>
+                                    </div>
+
+                                    <div className="flex flex-row justify-between">
+                                        <p>Shipping Fee</p>
+                                        <span>
+                                            $10.00
+                                        </span>
+                                    </div>
+
+                                    <div className="flex flex-row justify-between">
+                                        <p>Tax</p>
+                                        <span>
+                                            ${cartItems.reduce((total, item) => total + item.price * item.quantity * 0.13, 0).toFixed(2)}
+                                        </span>
+                                    </div>
+
+
+
+                                </CardContent>
+                                <CardFooter className="flex flex-col gap-8">
+                                    <Separator />
+
+                                    {/* total */}
+                                    <div className="w-full flex flex-row justify-between">
+                                        <p>Total</p>
+                                        <span>
+                                            ${cartItems.reduce((total, item) => total + item.price * item.quantity - item.price * item.quantity * 0.1 + 10 + item.price * item.quantity * 0.13, 0).toFixed(2)}
+                                        </span>
+                                    </div>
+
+                                    {
+                                        activeStep === 1 && (
+                                            <Button onClick={() => router.push("/cart?step=2", { scroll: false })} className="w-full">
+                                                Continue <ArrowRight data-icon="inline-end" />
+                                            </Button>
+                                        )
+                                    }
+
+
+                                </CardFooter>
+
+                            </Card>
+                        </div>
+                    )
+                }
+
+                {/* CONFIRMATION STEP */}
+                {
+                    activeStep === 4 && (
+                        <div className="w-full flex flex-col gap-8 items-center justify-center">
+
+                            <Truck className="animate-bounce" size={50} />
+                            <h1 className="text-2xl font-medium ">Your Order is on its way!</h1>
+
+                            <div className="flex flex-col gap-2">
+
+                                <div className="flex flex-row gap-2">
+                                    <span>Confirmation Number: </span>
+                                    <span> #123456789</span>
 
                                 </div>
 
-                            </>
+                                <div className="flex flex-row justify-between">
+                                    <span>Order Placed On: </span>
+                                    <span>{TodayDate}</span>
+                                </div>
 
-                        )
-                    }
-
-                    {
-                        activeStep === 2 && (
-                            <>
-                                <h1 className="text-2xl font-medium flex items-start justify-start">Shipping Information</h1>
-                                <ShippingForm setShippingForm={setShippingForm} />
-                            </>
-                        )
-                    }
-
-                    {
-                        activeStep === 3 && (
-                            <>
-                                <h1 className="text-2xl font-medium flex items-start justify-start">Payment Information</h1>
-                                <PaymentForm />
-                            </>
-                        )
-                    }
-
-
-                </div>
-
-
-                <div className="w-full lg:w-5/12 flex flex-col gap-8">
-
-                    <h1 className="text-2xl font-medium flex items-start justify-start">Order Summary</h1>
-
-                    <Card>
-
-                        <CardContent className="flex flex-col">
-
-
-                            {/* promo code input */}
-
-                            {
-                                activeStep == 1 && (
-                                    <div>
-                                        <Accordion
-                                            type="single"
-                                            collapsible
-                                            defaultValue="Promo"
-                                            className="max-w-lg"
-                                        >
-
-                                            <AccordionItem value="Promo">
-                                                <AccordionTrigger>Promo Code</AccordionTrigger>
-                                                <AccordionContent>
-                                                    <div className="flex flex-row gap-2">
-                                                        <Input placeholder="Promo Code" />
-                                                        <Button>Apply</Button>
-                                                    </div>
-                                                </AccordionContent>
-                                            </AccordionItem>
-                                        </Accordion>
-                                    </div>
-                                )
-                            }
-
-
-                            <div className="flex flex-row justify-between">
-                                <p>Subtotal</p>
-                                <span>
-                                    ${cartItems.reduce((total, item) => total + item.price * item.quantity, 0).toFixed(2)}
-                                </span>
-                            </div>
-
-                            <div className="flex flex-row justify-between">
-                                <p>Discount (10%)</p>
-                                <span className="text-red-500">
-                                    -${cartItems.reduce((total, item) => total + item.price * item.quantity * 0.1, 0).toFixed(2)}
-                                </span>
-                            </div>
-
-                            <div className="flex flex-row justify-between">
-                                <p>Shipping Fee</p>
-                                <span>
-                                    $10.00
-                                </span>
-                            </div>
-
-                            <div className="flex flex-row justify-between">
-                                <p>Tax</p>
-                                <span>
-                                    ${cartItems.reduce((total, item) => total + item.price * item.quantity * 0.13, 0).toFixed(2)}
-                                </span>
+                                <Link href="/" className={buttonVariants({ variant: "default", className: "w-full flex items-center justify-center gap-2" })}>
+                                    Continue Shopping <ShoppingBag />
+                                </Link>
                             </div>
 
 
+                            <p>Thank you for your order. You will receive a confirmation email shortly.</p>
 
-                        </CardContent>
-                        <CardFooter className="flex flex-col gap-8">
-                            <Separator />
-
-                            {/* total */}
-                            <div className="w-full flex flex-row justify-between">
-                                <p>Total</p>
-                                <span>
-                                    ${cartItems.reduce((total, item) => total + item.price * item.quantity - item.price * item.quantity * 0.1 + 10 + item.price * item.quantity * 0.13, 0).toFixed(2)}
-                                </span>
-                            </div>
-
-                            {
-                                activeStep === 1 && (
-                                    <Button onClick={() => router.push("/cart?step=2", { scroll: false })} className="w-full">
-                                        Continue <ArrowRight data-icon="inline-end" />
-                                    </Button>
-                                )
-                            }
-
-
-                        </CardFooter>
-
-                    </Card>
-                </div>
+                        </div>
+                    )
+                }
 
             </div>
         </div>

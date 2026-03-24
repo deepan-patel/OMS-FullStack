@@ -15,6 +15,7 @@ import {
 
 import { provinces } from "@/app/data/data-config";
 
+import Image from "next/image";
 
 import {
     Select,
@@ -27,7 +28,7 @@ import {
 
 import { Button } from "@/components/ui/button"
 
-import { ArrowRight, Phone } from "lucide-react"
+import { ShoppingCart } from "lucide-react"
 
 import {
     InputGroup,
@@ -41,54 +42,50 @@ import { Input } from "@/components/ui/input"
 
 import { toast } from "sonner"
 
-import { ShippingFormInputs, ShippingFormSchema } from "@/app/ZodSchemas/Shipping";
+import { PaymentFormInputs, PaymentFormSchema } from "@/app/ZodSchemas/Payment";
 import { useRouter } from "next/navigation";
 
 
 export default function PaymentForm() {
 
 
-    const form = useForm<z.infer<typeof ShippingFormSchema>>({
-        resolver: zodResolver(ShippingFormSchema),
+    const form = useForm<z.infer<typeof PaymentFormSchema>>({
+        resolver: zodResolver(PaymentFormSchema),
         defaultValues: {
-            name: "",
-            email: "",
-            address: "",
-            city: "",
-            province: "Ontario",
-            postalCode: "",
-            country: "",
-            phone: "",
+            CardHolderName: "",
+            CardNumber: "",
+            CardExpiryDate: "",
+            CardCVV: "",
         },
     })
 
     const router = useRouter();
 
-    function onSubmit(data: z.infer<typeof ShippingFormSchema>) {
-        toast.success("Shipping information saved successfully");
-        router.push("/cart?step=3", { scroll: false });
+    function onSubmit(data: z.infer<typeof PaymentFormSchema>) {
+        toast.success("Payment information saved successfully");
+        router.push("/cart?step=4", { scroll: false });
     }
     return (
         <Card>
             <CardHeader>
-                <CardTitle>Shipping Information</CardTitle>
+                <CardTitle>Payment Information</CardTitle>
             </CardHeader>
             <CardContent>
-                <form id="shipping-form" onSubmit={form.handleSubmit(onSubmit)}>
+                <form id="payment-form" onSubmit={form.handleSubmit(onSubmit)}>
                     <FieldGroup>
                         <Controller
-                            name="name"
+                            name="CardHolderName"
                             control={form.control}
                             render={({ field, fieldState }) => (
                                 <Field data-invalid={fieldState.invalid}>
-                                    <FieldLabel htmlFor="name">
-                                        Name
+                                    <FieldLabel htmlFor="CardHolderName">
+                                        Card Holder Name
                                     </FieldLabel>
                                     <Input
                                         {...field}
-                                        id="name"
+                                        id="CardHolderName"
                                         aria-invalid={fieldState.invalid}
-                                        placeholder="Enter your name"
+                                        placeholder="Enter the card holder's name"
                                     />
                                     {fieldState.invalid && (
                                         <FieldError errors={[fieldState.error]} />
@@ -98,19 +95,18 @@ export default function PaymentForm() {
                         />
 
                         <Controller
-                            name="email"
+                            name="CardNumber"
                             control={form.control}
                             render={({ field, fieldState }) => (
                                 <Field data-invalid={fieldState.invalid}>
-                                    <FieldLabel htmlFor="email">
-                                        Email
+                                    <FieldLabel htmlFor="CardNumber">
+                                        Card Number
                                     </FieldLabel>
                                     <Input
                                         {...field}
-                                        id="email"
+                                        id="CardNumber"
                                         aria-invalid={fieldState.invalid}
-                                        placeholder="Enter your email"
-                                        type="email"
+                                        placeholder="1234 5678 9101 1121"
                                     />
                                     {fieldState.invalid && (
                                         <FieldError errors={[fieldState.error]} />
@@ -120,18 +116,18 @@ export default function PaymentForm() {
                         />
 
                         <Controller
-                            name="address"
+                            name="CardExpiryDate"
                             control={form.control}
                             render={({ field, fieldState }) => (
                                 <Field data-invalid={fieldState.invalid}>
-                                    <FieldLabel htmlFor="address">
-                                        Address
+                                    <FieldLabel htmlFor="CardExpiryDate">
+                                        Card Expiry Date
                                     </FieldLabel>
                                     <Input
                                         {...field}
-                                        id="address"
+                                        id="CardExpiryDate"
                                         aria-invalid={fieldState.invalid}
-                                        placeholder="Enter your address"
+                                        placeholder="MM/YY"
                                     />
                                     {fieldState.invalid && (
                                         <FieldError errors={[fieldState.error]} />
@@ -141,74 +137,18 @@ export default function PaymentForm() {
                         />
 
                         <Controller
-                            name="city"
+                            name="CardCVV"
                             control={form.control}
                             render={({ field, fieldState }) => (
                                 <Field data-invalid={fieldState.invalid}>
-                                    <FieldLabel htmlFor="city">
-                                        City
+                                    <FieldLabel htmlFor="CardCVV">
+                                        CVV
                                     </FieldLabel>
                                     <Input
                                         {...field}
-                                        id="city"
+                                        id="CardExpiryDate"
                                         aria-invalid={fieldState.invalid}
-                                        placeholder="Enter your city"
-                                    />
-
-                                    {fieldState.invalid && (
-                                        <FieldError errors={[fieldState.error]} />
-                                    )}
-                                </Field>
-                            )}
-                        />
-
-                        <Controller
-                            name="province"
-                            control={form.control}
-                            render={({ field, fieldState }) => (
-                                <Field data-invalid={fieldState.invalid}>
-                                    <FieldLabel htmlFor="province">
-                                        Province
-                                    </FieldLabel>
-
-                                    <Select
-                                        value={field.value}
-                                        onValueChange={field.onChange}
-                                    >
-                                        <SelectTrigger className="w-full">
-                                            <SelectValue placeholder="province" />
-                                        </SelectTrigger>
-                                        <SelectContent>
-                                            <SelectGroup>
-                                                {provinces.map((province) => (
-                                                    <SelectItem key={province} value={province}>
-                                                        {province}
-                                                    </SelectItem>
-                                                ))}
-                                            </SelectGroup>
-                                        </SelectContent>
-                                    </Select>
-
-                                    {fieldState.invalid && (
-                                        <FieldError errors={[fieldState.error]} />
-                                    )}
-                                </Field>
-                            )}
-                        />
-
-                        <Controller
-                            name="postalCode"
-                            control={form.control}
-                            render={({ field, fieldState }) => (
-                                <Field data-invalid={fieldState.invalid}>
-                                    <FieldLabel htmlFor="postalCode">
-                                        Postal Code
-                                    </FieldLabel>
-                                    <Input
-                                        {...field}
-                                        id="address"
-                                        aria-invalid={fieldState.invalid}
-                                        placeholder="Enter your address"
+                                        placeholder="MM/YY"
                                     />
                                     {fieldState.invalid && (
                                         <FieldError errors={[fieldState.error]} />
@@ -217,52 +157,22 @@ export default function PaymentForm() {
                             )}
                         />
 
-                        <Controller
-                            name="country"
-                            control={form.control}
-                            render={({ field, fieldState }) => (
-                                <Field data-invalid={fieldState.invalid}>
-                                    <FieldLabel htmlFor="country">
-                                        Country
-                                    </FieldLabel>
-                                    <Input
-                                        {...field}
-                                        id="country"
-                                        aria-invalid={fieldState.invalid}
-                                        placeholder="Enter your country"
-                                    />
-                                    {fieldState.invalid && (
-                                        <FieldError errors={[fieldState.error]} />
-                                    )}
-                                </Field>
-                            )}
-                        />
 
-                        <Controller
-                            name="phone"
-                            control={form.control}
-                            render={({ field, fieldState }) => (
-                                <Field data-invalid={fieldState.invalid}>
-                                    <FieldLabel htmlFor="phone">
-                                        Phone Number
-                                    </FieldLabel>
+                        <div className="flex flex-col gap-2">
+                            <p className="text-sm text-muted-foreground">Supported Payment Types</p>
+                            <div className="flex gap-2">
+                                <Image className="rounded-md" src="/klarna.png" alt="Klarna" width={50} height={50} />
+                                <Image className="rounded-md" src="/stripe.png" alt="Stripe" width={50} height={50} />
+                                <Image className="rounded-md" src="/cards.png" alt="Cards" width={50} height={50} />
+                            </div>
 
-                                    <Input {...field}
-                                        id="phone"
-                                        aria-invalid={fieldState.invalid}
-                                        placeholder="Enter your phone number" />
+                        </div>
 
-                                    {fieldState.invalid && (
-                                        <FieldError errors={[fieldState.error]} />
-                                    )}
-                                </Field>
-                            )}
-                        />
 
 
 
                         <Button type="submit" className="w-full">
-                            Continue <ArrowRight data-icon="inline-end" />
+                            Checkout <ShoppingCart data-icon="inline-end" />
                         </Button>
 
                     </FieldGroup>
