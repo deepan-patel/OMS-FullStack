@@ -5,6 +5,7 @@ import NavBar from "@/components/web/Navbar";
 import Footer from "@/components/web/Footer";
 import { cn } from "@/lib/utils";
 import { Toaster } from "@/components/ui/sonner"
+import { ThemeProvider } from "@/components/theme/theme-provider"
 
 const inter = Inter({ subsets: ['latin'], variable: '--font-sans' });
 
@@ -29,14 +30,21 @@ export default function RootLayout({
   children: React.ReactNode;
 }>) {
   return (
-    <html lang="en" className={cn("font-sans", inter.variable)}>
+    <html lang="en" suppressHydrationWarning className={cn("font-sans", inter.variable)}>
       <body
         className={`${geistSans.variable} ${geistMono.variable} antialiased`}
       >
         <div className="mx-auto sm:max-w-xl md:max-w-2xl lg:max-w-4xl xl:max-w-6xl p-4">
-          <NavBar />
-          {children}
-          <Toaster />
+          <ThemeProvider
+            attribute="class"
+            defaultTheme="system"
+            enableSystem
+            disableTransitionOnChange
+          >
+            <NavBar />
+            {children}
+            <Toaster />
+          </ThemeProvider>
           <Footer />
         </div>
       </body>
