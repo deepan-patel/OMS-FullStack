@@ -1,7 +1,7 @@
 "use client"
 
 import { useRouter, useSearchParams } from "next/navigation"
-import { CartItemsType } from "@/types";
+import { CartItemType } from "@/types";
 import { cn } from "@/lib/utils"
 import { useState } from "react";
 
@@ -27,6 +27,8 @@ import {
 import ShippingForm from "@/components/forms/ShippingForm";
 import PaymentForm from "@/components/forms/PaymentForm";
 import useCartStore from "@/stores/CartStore";
+
+import { toast } from "sonner";
 
 
 import Image from "next/image";
@@ -66,6 +68,11 @@ export default function CartPage() {
     const { cart, removeFromCart } = useCartStore();
 
     const TodayDate = "2026-03-24";
+
+    const removeFromCartHandler = (removeItem: CartItemType) => {
+        removeFromCart(removeItem)
+        toast.error(`${removeItem.name} removed from cart`)
+    }
 
     return (
 
@@ -145,19 +152,7 @@ export default function CartPage() {
 
                                                                 </CardContent>
                                                                 <CardFooter>
-                                                                    <span onClick={() => removeFromCart({
-                                                                        id: item.id,
-                                                                        name: item.name,
-                                                                        shortDescription: item.shortDescription,
-                                                                        description: item.description,
-                                                                        price: item.price,
-                                                                        sizes: item.sizes,
-                                                                        colours: item.colours,
-                                                                        images: item.images,
-                                                                        quantity: item.quantity,
-                                                                        selectedSize: item.selectedSize,
-                                                                        selectedColor: item.selectedColor,
-                                                                    })} className="bg-red-300 p-1 rounded-full hover:animate-pulse"><Trash2 className="text-red-500 cursor-pointer h-5 w-5" /></span>
+                                                                    <span onClick={() => removeFromCartHandler(item)} className="bg-red-300 p-1 rounded-full hover:animate-pulse"><Trash2 className="text-red-500 cursor-pointer h-5 w-5" /></span>
                                                                 </CardFooter>
                                                             </Card>
                                                         ))

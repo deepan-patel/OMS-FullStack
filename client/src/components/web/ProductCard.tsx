@@ -23,6 +23,8 @@ import { ShoppingCart, Plus, Minus } from "lucide-react"
 
 import { ProductType } from "@/types"
 
+import { toast } from "sonner"
+
 
 import Image from "next/image"
 import Link from "next/link"
@@ -68,6 +70,8 @@ export default function ProductCard({ product }: { product: ProductType }) {
             ...productType,
             quantity: 1
         })
+
+        toast.success(`${product.name} added to cart`)
     }
 
     return (
