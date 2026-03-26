@@ -123,7 +123,7 @@ export default function CartPage() {
                                                 <div className="flex flex-col gap-2">
                                                     {
                                                         cart.map((item) => (
-                                                            <Card key={item.id} className="flex flex-row">
+                                                            <Card key={item.id + item.selectedColor + item.selectedSize} className="flex flex-row">
                                                                 <CardHeader className="relative w-[200px] h-[200px] shrink-0">
                                                                     <Image
                                                                         src={item.images[item.selectedColor]}
@@ -140,7 +140,7 @@ export default function CartPage() {
                                                                         <p>Color: {item.selectedColor}</p>
                                                                     </div>
                                                                     <div>
-                                                                        <p className="text-base font-large text-foreground">${item.price}</p>
+                                                                        <p className="text-base font-large text-foreground">${(item.price * item.quantity).toFixed(2)}</p>
                                                                     </div>
 
                                                                 </CardContent>
