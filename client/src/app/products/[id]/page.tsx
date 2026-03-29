@@ -30,45 +30,6 @@ export default async function ProductPage({ params, searchParams }: { params: Pr
     const selectedColour = (colour || product.colours[0])
     const selectedSize = (size || product.sizes[0])
 
-    // const [productType, setProductType] = useState({
-    //     colour: selectedColour,
-    //     size: selectedSize,
-    //     quantity: 1
-    // })
-
-    // const handleProductType = ({ type, value }: { type: "size" | "colour" | "quantity", value: string }) => {
-    //     setProductType((prev) => ({
-    //         ...prev,
-    //         [type]: value
-    //     }))
-
-    //     console.log(productType)
-    // }
-
-    // const handleQuantity = ({ type }: { type: "increment" | "decrement" }) => {
-    //     setProductType((prev) => ({
-    //         ...prev,
-    //         quantity: type === "increment" ? prev.quantity + 1 : prev.quantity - 1
-    //     }))
-    // }
-
-    // const { addToCart } = useCartStore();
-
-    // const handleAddToCart = () => {
-    //     addToCart({
-    //         ...product,
-    //         selectedSize: productType.size,
-    //         selectedColor: productType.colour,
-    //         quantity: productType.quantity
-    //     })
-    //     setProductType({
-    //         ...productType,
-    //         quantity: 1
-    //     })
-
-    //     toast.success(`${product.name} added to cart`)
-    // }
-
 
 
     return (
@@ -82,7 +43,7 @@ export default async function ProductPage({ params, searchParams }: { params: Pr
 
             <div className="w-full lg:w-7/12 flex flex-col gap-8">
                 {/* product details */}
-                <SingleProductCard product={product} />
+                <SingleProductCard product={product} selectedColour={selectedColour} selectedSize={selectedSize} />
 
             </div>
         </div>

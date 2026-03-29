@@ -38,10 +38,9 @@ export default function ProductCard({ product }: { product: ProductType }) {
     const [productType, setProductType] = useState({
         colour: product.colours?.[0] ?? "",
         size: product.sizes?.[0] ?? "",
-        quantity: 1
     })
 
-    const handleProductType = ({ type, value }: { type: "size" | "colour" | "quantity", value: string }) => {
+    const handleProductType = ({ type, value }: { type: "size" | "colour", value: string }) => {
         setProductType((prev) => ({
             ...prev,
             [type]: value
@@ -50,12 +49,7 @@ export default function ProductCard({ product }: { product: ProductType }) {
         console.log(productType)
     }
 
-    const handleQuantity = ({ type }: { type: "increment" | "decrement" }) => {
-        setProductType((prev) => ({
-            ...prev,
-            quantity: type === "increment" ? prev.quantity + 1 : prev.quantity - 1
-        }))
-    }
+
 
     const { addToCart } = useCartStore();
 
@@ -64,10 +58,6 @@ export default function ProductCard({ product }: { product: ProductType }) {
             ...product,
             selectedSize: productType.size,
             selectedColor: productType.colour,
-            quantity: productType.quantity
-        })
-        setProductType({
-            ...productType,
             quantity: 1
         })
 
@@ -79,7 +69,7 @@ export default function ProductCard({ product }: { product: ProductType }) {
         <Card className="rounded-lg shadow-lg p-0 m-0 flex flex-col h-full">
             <CardHeader className="relative aspect-[2/3]">
                 {/* Image goes here */}
-                <Link href={`/products/${product.id}`}>
+                <Link href={`/products/${product.id}?colour=${productType.colour}&size=${productType.size}`}>
                     <Image
                         src={product.images[productType.colour]}
                         alt={product.name}
@@ -110,7 +100,7 @@ export default function ProductCard({ product }: { product: ProductType }) {
                             >
                                 {
                                     product.sizes.map((size) => (
-                                        <NativeSelectOption key={size} value={size}>{size}</NativeSelectOption>
+                                        <NativeSelectOption key={size} value={size}>{size.toUpperCase()}</NativeSelectOption>
                                     ))
                                 }
                             </NativeSelect>
@@ -142,24 +132,6 @@ export default function ProductCard({ product }: { product: ProductType }) {
                     </div>
                 </div>
 
-                {/* quantity input */}
-                {/* <div className="w-full flex flex-row items-center mt-auto gap-2">
-                    <div
-                        className="p-2 bg-gray-500 rounded-md cursor-pointer hover:bg-gray-600 transition-colors"
-                        onClick={() => handleQuantity({ type: "decrement" })}
-                    >
-                        <Minus className="text-white" />
-                    </div>
-                    <div className="flex-1 p-2 bg-gray-500 rounded-md flex justify-center items-center">
-                        <span className="text-white font-bold text-lg">{productType.quantity}</span>
-                    </div>
-                    <div
-                        className="p-2 bg-gray-500 rounded-md cursor-pointer hover:bg-gray-600 transition-colors"
-                        onClick={() => handleQuantity({ type: "increment" })}
-                    >
-                        <Plus className="text-white" />
-                    </div>
-                </div> */}
 
                 {/* product pricing and add to cart */}
                 <div className="w-full">

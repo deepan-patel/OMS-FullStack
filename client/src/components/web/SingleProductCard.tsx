@@ -7,25 +7,33 @@ import { toast } from "sonner"
 
 import {
     NativeSelect,
-    NativeSelectOptGroup,
     NativeSelectOption,
-    NativeSelectTrigger,
 } from "@/components/ui/native-select"
 
 import { Button, buttonVariants } from "../ui/button"
 import { ShoppingCart, PlusIcon, MinusIcon } from "lucide-react"
+import Image from "next/image"
+import { useRouter, usePathname, useSearchParams } from "next/navigation"
 
 
+export default function SingleProductCard({ product, selectedColour, selectedSize }: { product: ProductType, selectedColour: string, selectedSize: string }) {
 
-export default function SingleProductCard({ product }: { product: ProductType }) {
+    const router = useRouter();
+    const pathName = usePathname();
+    const searchParams = useSearchParams();
 
     const [productType, setProductType] = useState({
-        colour: product.colours?.[0] ?? "",
-        size: product.sizes?.[0] ?? "",
+        colour: selectedColour,
+        size: selectedSize,
         quantity: 1
     })
 
-    const handleProductType = ({ type, value }: { type: "size" | "colour" | "quantity", value: string }) => {
+    const handleProductType = ({ type, value }: { type: "size" | "colour", value: string }) => {
+
+        const URL = new URLSearchParams(searchParams.toString());
+        URL.set(type, value);
+        router.push(`${pathName}?${URL.toString()}`, { scroll: false });
+
         setProductType((prev) => ({
             ...prev,
             [type]: value
@@ -34,16 +42,16 @@ export default function SingleProductCard({ product }: { product: ProductType })
         console.log(productType)
     }
 
-    const handleQuantity = ({ type }: { type: "increment" | "decrement" }) => {
+    const handleQuantityChange = ({ type }: { type: "increment" | "decrement" }) => {
         setProductType((prev) => ({
             ...prev,
-            quantity: type === "increment" ? prev.quantity + 1 : prev.quantity - 1
+            quantity: type === "increment" ? prev.quantity + 1 : prev.quantity > 1 ? prev.quantity - 1 : 1
         }))
     }
 
     const { addToCart } = useCartStore();
 
-    const handleAddToCart = () => {
+    const handleAddToCart = (redirect: boolean = false) => {
         addToCart({
             ...product,
             selectedSize: productType.size,
@@ -54,6 +62,10 @@ export default function SingleProductCard({ product }: { product: ProductType })
             ...productType,
             quantity: 1
         })
+
+        if (redirect) {
+            router.push("/cart");
+        }
 
         toast.success(`${product.name} added to cart`)
     }
@@ -80,7 +92,7 @@ export default function SingleProductCard({ product }: { product: ProductType })
                     >
                         {
                             product.sizes.map((size) => (
-                                <NativeSelectOption key={size} value={size}>{size}</NativeSelectOption>
+                                <NativeSelectOption key={size} value={size}>{size.toUpperCase()}</NativeSelectOption>
                             ))
                         }
                     </NativeSelect>
@@ -110,13 +122,13 @@ export default function SingleProductCard({ product }: { product: ProductType })
             </div>
 
             {/* quantity input */}
-            <div className="flex flex-col gap-2">
+            <div className="flex flex-col gap-2 md:w-1/4">
                 <p>Quantity</p>
 
                 <div className="flex flex-row items-center gap-2">
                     <div
-                        className="p-2 bg-gray-500 rounded-md cursor-pointer hover:bg-gray-600 transition-colors"
-                        onClick={() => handleQuantity({ type: "decrement" })}
+                        className="p-1 bg-gray-500 rounded-md cursor-pointer hover:bg-gray-600 transition-colors"
+                        onClick={() => handleQuantityChange({ type: "decrement" })}
                     >
                         <MinusIcon className="text-white" />
                     </div>
@@ -124,8 +136,8 @@ export default function SingleProductCard({ product }: { product: ProductType })
                         <span className="text-white font-bold text-lg">{productType.quantity}</span>
                     </div>
                     <div
-                        className="p-2 bg-gray-500 rounded-md cursor-pointer hover:bg-gray-600 transition-colors"
-                        onClick={() => handleQuantity({ type: "increment" })}
+                        className="p-1 bg-gray-500 rounded-md cursor-pointer hover:bg-gray-600 transition-colors"
+                        onClick={() => handleQuantityChange({ type: "increment" })}
                     >
                         <PlusIcon className="text-white" />
                     </div>
@@ -133,16 +145,35 @@ export default function SingleProductCard({ product }: { product: ProductType })
             </div>
 
             <div className="flex flex-col gap-2">
-                <Button onClick={handleAddToCart} className={buttonVariants({ variant: "default", className: "w-full" })}>
+                <Button onClick={() => handleAddToCart(false)} className={buttonVariants({ variant: "default", className: "w-full" })}>
                     <PlusIcon className="mr-2 h-4 w-4" />
                     Add to Cart
                 </Button>
 
-                <Button onClick={handleAddToCart} className={buttonVariants({ variant: "outline", className: "w-full" })}>
+                <Button onClick={() => handleAddToCart(true)} className={buttonVariants({ variant: "outline", className: "w-full" })}>
                     <ShoppingCart className="mr-2 h-4 w-4" />
                     Buy This Now
                 </Button>
             </div>
+
+            <div className="flex flex-col gap-2">
+                <div className="flex flex-row gap-2">
+                    <Image className="rounded-md" src="/klarna.png" alt="Klarna" width={50} height={50} />
+                    <Image className="rounded-md" src="/stripe.png" alt="Stripe" width={50} height={50} />
+                    <Image className="rounded-md" src="/cards.png" alt="Cards" width={50} height={50} />
+                </div>
+                <p className="text-gray-500 text-xs">
+                    By clicking Pay Now, you agree to our{" "}
+                    <span className="underline hover:text-black cursor-pointer dark:hover:text-white">Terms & Conditions</span>{" "}
+                    and <span className="underline hover:text-black cursor-pointer dark:hover:text-white">Privacy Policy</span>
+                    . You authorize us to charge your selected payment method for the
+                    total amount shown. All sales are subject to our return and{" "}
+                    <span className="underline hover:text-black cursor-pointer dark:hover:text-white">Refund Policies</span>.
+                </p>
+            </div>
+
+
+
 
 
 
