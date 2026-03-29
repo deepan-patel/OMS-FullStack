@@ -117,6 +117,7 @@ export default function ProductCard({ product }: { product: ProductType }) {
                         </div>
                     </div>
 
+
                     <div className="flex flex-col gap-2">
                         <p>Color</p>
                         <div>
@@ -142,7 +143,7 @@ export default function ProductCard({ product }: { product: ProductType }) {
                 </div>
 
                 {/* quantity input */}
-                <div className="w-full flex flex-row items-center mt-auto gap-2">
+                {/* <div className="w-full flex flex-row items-center mt-auto gap-2">
                     <div
                         className="p-2 bg-gray-500 rounded-md cursor-pointer hover:bg-gray-600 transition-colors"
                         onClick={() => handleQuantity({ type: "decrement" })}
@@ -158,7 +159,7 @@ export default function ProductCard({ product }: { product: ProductType }) {
                     >
                         <Plus className="text-white" />
                     </div>
-                </div>
+                </div> */}
 
                 {/* product pricing and add to cart */}
                 <div className="w-full">

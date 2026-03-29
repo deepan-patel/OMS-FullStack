@@ -61,7 +61,10 @@ export default function ProductList({ category, params }: { category: string, pa
             price: 29.99,
             sizes: ["s", "m", "l"],
             colours: ["white", "pink"],
-            images: { white: "/products/4w.png", pink: "/products/4p.png" },
+            images: {
+                white: "/products/4w.png",
+                pink: "/products/4p.png"
+            },
         },
         {
             id: 5,

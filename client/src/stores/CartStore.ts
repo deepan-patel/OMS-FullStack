@@ -1,5 +1,5 @@
 import { create } from 'zustand'
-import { CartItemsType, CartStoreActionsType, CartStoreType, CartItemType } from '@/types'
+import { CartItemsType, CartStoreActionsType, CartStoreStateType, CartItemType } from '@/types'
 import { persist, createJSONStorage } from "zustand/middleware"
 
 const isSameVariant = (a: CartItemType, b: CartItemType) =>
@@ -7,10 +7,11 @@ const isSameVariant = (a: CartItemType, b: CartItemType) =>
     a.selectedSize === b.selectedSize &&
     a.selectedColor === b.selectedColor
 
-const useCartStore = create<CartStoreType & CartStoreActionsType>()(
+const useCartStore = create<CartStoreStateType & CartStoreActionsType>()(
     persist(
         (set) => ({
             cart: [],
+            hasHydrated: false,
             addToCart: (product) =>
                 set((state) => {
                     const qtyToAdd = product.quantity ?? 1
@@ -46,6 +47,11 @@ const useCartStore = create<CartStoreType & CartStoreActionsType>()(
         }),
         {
             name: "cart",
+            onRehydrateStorage: () => (state) => {
+                if (state) {
+                    state.hasHydrated = true;
+                }
+            },
             storage: createJSONStorage(() => localStorage), // uses web storage so now when we refresh the page it will still be there
         }
     ));

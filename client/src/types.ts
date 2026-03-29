@@ -21,8 +21,9 @@ export type CartItemType = ProductType & {
 // Cart Store Types
 export type CartItemsType = CartItemType[];
 
-export type CartStoreType = {
+export type CartStoreStateType = {
     cart: CartItemsType;
+    hasHydrated: boolean;
 };
 
 export type CartStoreActionsType = {

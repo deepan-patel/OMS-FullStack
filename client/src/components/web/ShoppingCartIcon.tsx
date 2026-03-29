@@ -6,7 +6,9 @@ import useCartStore from "@/stores/CartStore";
 
 export default function ShoppingCartIcon() {
 
-    const { cart } = useCartStore();
+    const { cart, hasHydrated } = useCartStore();
+
+    if (!hasHydrated) return null;
 
     return (
         <div className="relative">
