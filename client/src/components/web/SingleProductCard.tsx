@@ -22,6 +22,8 @@ export default function SingleProductCard({ product, selectedColour, selectedSiz
     const pathName = usePathname();
     const searchParams = useSearchParams();
 
+    const { addToCart } = useCartStore();
+
     const [productType, setProductType] = useState({
         colour: selectedColour,
         size: selectedSize,
@@ -49,7 +51,6 @@ export default function SingleProductCard({ product, selectedColour, selectedSiz
         }))
     }
 
-    const { addToCart } = useCartStore();
 
     const handleAddToCart = (redirect: boolean = false) => {
         addToCart({
@@ -63,11 +64,12 @@ export default function SingleProductCard({ product, selectedColour, selectedSiz
             quantity: 1
         })
 
+        toast.success(`${product.name} added to cart`)
+
         if (redirect) {
             router.push("/cart");
         }
 
-        toast.success(`${product.name} added to cart`)
     }
 
 

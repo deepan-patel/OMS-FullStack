@@ -24,6 +24,16 @@ const product: ProductType = {
     },
 };
 
+export const generateMetadata = async ({ params }: { params: Promise<{ id: string }> }) => {
+
+    // needed for SEO optimization
+    return {
+        title: product.name,
+        description: product.description,
+    }
+}
+
+
 export default async function ProductPage({ params, searchParams }: { params: Promise<{ id: string }>, searchParams: Promise<{ colour: string, size: string }> }) {
     // const { id } = await params;
     const { colour, size } = await searchParams;
