@@ -88,6 +88,21 @@ export default function UserNamePage({ params }: { params: { id: string } }) {
                             </HoverCard>
                         </div>
                     </div>
+                    <div className="bg-primary-foreground p-4 rounded-lg">
+                        <div className="flex items-center gap-2">
+                            <Avatar className="size-12">
+                                <AvatarImage src="https://github.com/shadcn.png" />
+                                <AvatarFallback>JD</AvatarFallback>
+                            </Avatar>
+                            <h1 className="text-xl font-semibold">John Doe</h1>
+                        </div>
+                        <p className="mt-4 text-muted-foreground">
+                            Lorem ipsum dolor sit amet consectetur adipisicing elit. Quisquam, quod.
+                            Lorem ipsum dolor sit amet consectetur adipisicing elit. Quisquam, quod.
+                            Lorem ipsum dolor sit amet consectetur adipisicing elit. Quisquam, quod.
+                            Lorem ipsum dolor sit amet consectetur adipisicing elit. Quisquam, quod.
+                        </p>
+                    </div>
                     {/* information container */}
                     <div className="bg-primary-foreground p-4 rounded-lg">
                         <div className="flex items-center justify-between">
@@ -135,21 +150,7 @@ export default function UserNamePage({ params }: { params: { id: string } }) {
                 </div>
 
                 <div className="w-full xl:w-2/3 space-y-6">
-                    <div className="bg-primary-foreground p-4 rounded-lg">
-                        <div className="flex items-center gap-2">
-                            <Avatar className="size-12">
-                                <AvatarImage src="https://github.com/shadcn.png" />
-                                <AvatarFallback>JD</AvatarFallback>
-                            </Avatar>
-                            <h1 className="text-xl font-semibold">John Doe</h1>
-                        </div>
-                        <p className="mt-4">
-                            Lorem ipsum dolor sit amet consectetur adipisicing elit. Quisquam, quod.
-                            Lorem ipsum dolor sit amet consectetur adipisicing elit. Quisquam, quod.
-                            Lorem ipsum dolor sit amet consectetur adipisicing elit. Quisquam, quod.
-                            Lorem ipsum dolor sit amet consectetur adipisicing elit. Quisquam, quod.
-                        </p>
-                    </div>
+
 
                     <div className="bg-primary-foreground p-4 rounded-lg">
                         <MultipleLineChartComponent />
