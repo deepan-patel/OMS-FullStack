@@ -37,11 +37,11 @@ export default function EditUserForm() {
     const form = useForm<z.infer<typeof UserSchema>>({
         resolver: zodResolver(UserSchema),
         defaultValues: {
-            name: "John Doe",
+            fullName: "John Doe",
             email: "John@Doe.com",
             phone: "4167892089",
-            location: "",
-            role: "user",
+            address: "999 King St W",
+            city: "Toronto",
         },
     })
 
@@ -63,12 +63,12 @@ export default function EditUserForm() {
             <form id="payment-form" className="flex flex-col gap-4 mt-4" onSubmit={form.handleSubmit(onSubmit)}>
                 <FieldGroup>
                     <Controller
-                        name="name"
+                        name="fullName"
                         control={form.control}
                         render={({ field, fieldState }) => (
                             <Field data-invalid={fieldState.invalid}>
-                                <FieldLabel htmlFor="name">
-                                    Name
+                                <FieldLabel htmlFor="fullName">
+                                    Full Name
                                 </FieldLabel>
                                 <Input
                                     {...field}
@@ -128,18 +128,39 @@ export default function EditUserForm() {
                     />
 
                     <Controller
-                        name="location"
+                        name="address"
                         control={form.control}
                         render={({ field, fieldState }) => (
                             <Field data-invalid={fieldState.invalid}>
-                                <FieldLabel htmlFor="location">
-                                    Location
+                                <FieldLabel htmlFor="address">
+                                    Address
                                 </FieldLabel>
                                 <Input
                                     {...field}
-                                    id="location"
+                                    id="address"
                                     aria-invalid={fieldState.invalid}
-                                    placeholder="Enter the user's location"
+                                    placeholder="Enter the user's address"
+                                />
+                                {fieldState.invalid && (
+                                    <FieldError errors={[fieldState.error]} />
+                                )}
+                            </Field>
+                        )}
+                    />
+
+                    <Controller
+                        name="city"
+                        control={form.control}
+                        render={({ field, fieldState }) => (
+                            <Field data-invalid={fieldState.invalid}>
+                                <FieldLabel htmlFor="city">
+                                    City
+                                </FieldLabel>
+                                <Input
+                                    {...field}
+                                    id="city"
+                                    aria-invalid={fieldState.invalid}
+                                    placeholder="Enter the user's city"
                                 />
                                 {fieldState.invalid && (
                                     <FieldError errors={[fieldState.error]} />
@@ -149,24 +170,6 @@ export default function EditUserForm() {
                     />
 
 
-                    <FieldLabel htmlFor="role">
-                        Role
-                    </FieldLabel>
-                    <RadioGroup defaultValue={userRoles[0]} className="max-w-sm">
-                        {userRoles.map((role) => (
-                            <FieldLabel key={role} htmlFor={role}>
-                                <Field orientation="horizontal">
-                                    <FieldContent>
-                                        <FieldTitle>{role}</FieldTitle>
-                                        <FieldDescription>
-                                            For {role} users.
-                                        </FieldDescription>
-                                    </FieldContent>
-                                    <RadioGroupItem value={role} id={role} />
-                                </Field>
-                            </FieldLabel>
-                        ))}
-                    </RadioGroup>
 
 
 

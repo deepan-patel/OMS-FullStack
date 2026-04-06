@@ -22,7 +22,7 @@ import { Avatar, AvatarFallback, AvatarImage } from "@/components/ui/avatar";
 import MultipleLineChartComponent from "@/components/charts/MultipleLineChartComponent";
 
 
-export default function UserNamePage({ params }: { params: { username: string } }) {
+export default function UserNamePage({ params }: { params: { id: string } }) {
 
     return (
         <div>
@@ -108,28 +108,30 @@ export default function UserNamePage({ params }: { params: { username: string } 
                                 <Progress value={33} />
                             </div>
                             <div className="flex items-center gap-2">
-                                <span className="font-bold">Username:</span>
+                                <span className="font-bold">Full Name:</span>
                                 <span>John Doe</span>
+                            </div>
+                            <div className="flex items-center gap-2">
+                                <span className="font-bold">Phone Number:</span>
+                                <span>416-123-4567</span>
                             </div>
                             <div className="flex items-center gap-2">
                                 <span className="font-bold">Email:</span>
                                 <span>John@doe.com</span>
                             </div>
                             <div className="flex items-center gap-2">
-                                <span className="font-bold">Location:</span>
-                                <span>Toronto ON</span>
+                                <span className="font-bold">Address:</span>
+                                <span>999 King St W</span>
                             </div>
                             <div className="flex items-center gap-2">
-                                <span className="font-bold">Role:</span>
-                                <Badge variant="default">Admin</Badge>
+                                <span className="font-bold">City:</span>
+                                <span>Toronto ON</span>
                             </div>
+
                             <p className="text-sm text-muted-foreground">Joined on <span className="font-bold">2026-04-02</span></p>
                         </div>
                     </div>
-                    {/* CartList */}
-                    <div className="bg-primary-foreground p-4 rounded-lg">
-                        <CardList title="Latest Transactions" />
-                    </div>
+
                 </div>
 
                 <div className="w-full xl:w-2/3 space-y-6">
