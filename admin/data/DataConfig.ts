@@ -1,5 +1,5 @@
 import { SidebarItems } from "@/types/types";
-import { LayoutDashboard, Settings, Calendar, Home, DollarSign, Users } from "lucide-react";
+import { LayoutDashboard, Settings, Calendar, Home, DollarSign, Users, Package } from "lucide-react";
 
 
 export const sidebarItems: SidebarItems = [
@@ -22,6 +22,11 @@ export const sidebarItems: SidebarItems = [
         title: "Calendar",
         href: "/calendar",
         icon: Calendar
+    },
+    {
+        title: "Products",
+        href: "/products",
+        icon: Package
     },
     {
         title: "Payments",

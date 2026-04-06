@@ -5,13 +5,15 @@ import { Badge } from "@/components/ui/badge"
 import { MoreHorizontal } from "lucide-react"
 import Link from "next/link"
 
-export type Payment = {
-    id: string
-    amount: number
-    status: "pending" | "processing" | "success" | "failed"
-    fullName: string
-    userId: string
-    email: string
+export type Product = {
+    id: string | number
+    price: number
+    name: string
+    shortDescription: string
+    description: string
+    sizes: string[]
+    colours: string[]
+    images: Record<string, string>
 }
 
 import { Button } from "@/components/ui/button"
@@ -29,93 +31,78 @@ import { cn } from "@/lib/utils"
 import { ArrowUpDown } from "lucide-react"
 
 import { Checkbox } from "@/components/ui/checkbox"
+import Image from "next/image"
 
-export const columns: ColumnDef<Payment>[] = [
+export const columns: ColumnDef<Product>[] = [
     {
         id: "select",
         header: ({ table }) => (
             <Checkbox
+                onCheckedChange={(value) => table.toggleAllPageRowsSelected(!!value)}
                 checked={
                     table.getIsAllPageRowsSelected() ||
                     (table.getIsSomePageRowsSelected() && "indeterminate")
                 }
-                onCheckedChange={(value) => table.toggleAllPageRowsSelected(!!value)}
-                aria-label="Select all"
             />
         ),
         cell: ({ row }) => (
             <Checkbox
-                checked={row.getIsSelected()}
                 onCheckedChange={(value) => row.toggleSelected(!!value)}
-                aria-label="Select row"
+                checked={row.getIsSelected()}
             />
         ),
-        enableSorting: false,
-        enableHiding: false,
     },
-
     {
-        accessorKey: "email",
+        accessorKey: "image",
+        header: "Image",
+        cell: ({ row }) => {
+            const product = row.original;
+            return (
+                <div className="w-9 h-9 relative">
+                    <Image
+                        src={product.images[product.colours[0]]}
+                        alt={product.name}
+                        fill
+                        className="rounded-full object-cover"
+                    />
+                </div>
+            );
+        },
+    },
+    {
+        accessorKey: "name",
+        header: "Name",
+    },
+    {
+        accessorKey: "price",
         header: ({ column }) => {
             return (
                 <Button
                     variant="ghost"
                     onClick={() => column.toggleSorting(column.getIsSorted() === "asc")}
                 >
-                    Email
+                    Price
                     <ArrowUpDown className="ml-2 h-4 w-4" />
                 </Button>
-            )
+            );
         },
-
-    },
-    {
-        accessorKey: "fullName",
-        header: ({ column }) => {
-            return (
-                <Button
-                    variant="ghost"
-                    onClick={() => column.toggleSorting(column.getIsSorted() === "asc")}
-                >
-                    Full Name
-                    <ArrowUpDown className="ml-2 h-4 w-4" />
-                </Button>
-            )
-        },
-    },
-    {
-        accessorKey: "status",
-        header: "Status",
         cell: ({ row }) => {
-            const status = row.getValue("status") as string
-            return (
-                <Badge className={cn("text-white p-1 text-xs", {
-                    "bg-green-500": status === "success",
-                    "bg-red-500": status === "failed",
-                    "bg-yellow-500": status === "pending",
-                })}>{status.toUpperCase()}</Badge>
-            )
-        },
-    },
-    {
-        accessorKey: "amount",
-        header: () => <div className="text-right">Amount</div>,
-        cell: ({ row }) => {
-            const amount = parseFloat(row.getValue("amount"))
+            const amount = parseFloat(row.getValue("price"))
             const formatted = new Intl.NumberFormat("en-US", {
                 style: "currency",
-                currency: "USD",
+                currency: "CAD",
             }).format(amount)
-
             return <div className="text-right font-medium">{formatted}</div>
         },
-
     },
-
+    {
+        accessorKey: "shortDescription",
+        header: "Description",
+    },
     {
         id: "actions",
         cell: ({ row }) => {
-            const payment = row.original
+            const product = row.original;
 
             return (
                 <DropdownMenu>
@@ -128,21 +115,17 @@ export const columns: ColumnDef<Payment>[] = [
                     <DropdownMenuContent align="end">
                         <DropdownMenuLabel>Actions</DropdownMenuLabel>
                         <DropdownMenuItem
-                            onClick={() => navigator.clipboard.writeText(payment.id)}
+                            onClick={() => navigator.clipboard.writeText(product.id.toString())}
                         >
-                            Copy payment ID
+                            Copy product ID
                         </DropdownMenuItem>
                         <DropdownMenuSeparator />
                         <DropdownMenuItem>
-                            <Link href={`/users/${payment.userId}`}>
-                                View customer
-                            </Link>
+                            <Link href={`/products/${product.id}`}>View Product</Link>
                         </DropdownMenuItem>
-                        <DropdownMenuItem>View payment details</DropdownMenuItem>
                     </DropdownMenuContent>
                 </DropdownMenu>
-            )
+            );
         },
     },
-
-]
+];
