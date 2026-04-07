@@ -1,5 +1,5 @@
 import { SidebarItems } from "@/types/types";
-import { LayoutDashboard, Settings, Calendar, Home, DollarSign, Users } from "lucide-react";
+import { LayoutDashboard, Settings, Calendar, Home, DollarSign, Users, Package } from "lucide-react";
 
 
 export const sidebarItems: SidebarItems = [
@@ -28,11 +28,6 @@ export const sidebarItems: SidebarItems = [
         href: "/payments",
         icon: DollarSign
     },
-    {
-        title: "Users",
-        href: "/users",
-        icon: Users
-    }
 
 ];
 
@@ -40,3 +35,10 @@ export const userRoles = [
     "user",
     "admin",
 ]
+
+export const orderStatus = [
+    "pending",
+    "processing",
+    "success",
+    "failed",
+];

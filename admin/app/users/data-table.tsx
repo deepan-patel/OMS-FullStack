@@ -61,7 +61,7 @@ export function DataTable<TData, TValue>({
                     <div className="flex justify-end px-2 py-4">
                         <Button variant="destructive" size="lg">
                             <Trash2 />
-                            Delete User(s)
+                            Delete Payment(s)
                         </Button>
                     </div>
                 )

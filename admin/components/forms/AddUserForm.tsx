@@ -30,23 +30,16 @@ import { RadioGroup, RadioGroupItem } from "@/components/ui/radio-group"
 import { toast } from "sonner"
 import { useState } from "react"
 
-export default function EditUserForm() {
+export default function AddUserForm() {
 
     const [open, setOpen] = useState(false)
 
     const form = useForm<z.infer<typeof UserSchema>>({
-        resolver: zodResolver(UserSchema),
-        defaultValues: {
-            fullName: "John Doe",
-            email: "John@Doe.com",
-            phone: "4167892089",
-            address: "999 King St W",
-            city: "Toronto",
-        },
+        resolver: zodResolver(UserSchema)
     })
 
     const onSubmit = (data: z.infer<typeof UserSchema>) => {
-        toast.success("User updated successfully")
+        toast.success("User created successfully")
     }
 
 
@@ -54,8 +47,8 @@ export default function EditUserForm() {
     return (
         <SheetContent side="right" className="flex p-4">
             <div className="flex flex-col gap-2">
-                <SheetTitle>Edit User's Information</SheetTitle>
-                <SheetDescription>Update the user's information.</SheetDescription>
+                <SheetTitle>Add New User</SheetTitle>
+                <SheetDescription>Add a new user to the system.</SheetDescription>
 
             </div>
 

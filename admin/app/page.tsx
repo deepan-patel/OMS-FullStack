@@ -12,7 +12,7 @@ export default function HomePage() {
       </div>
 
       <div className="bg-primary-foreground p-4 rounded-lg">
-        <CardList title="Latest Transactions" />
+        <CardList title="Popular Products" />
       </div>
 
       <div className="bg-primary-foreground p-4 rounded-lg">

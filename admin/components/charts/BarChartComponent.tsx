@@ -7,12 +7,12 @@ import { ChartContainer, type ChartConfig, ChartTooltip, ChartTooltipContent, Ch
 export default function BarChartComponent() {
 
     const chartData = [
-        { month: "January", desktop: 186, mobile: 80 },
-        { month: "February", desktop: 305, mobile: 200 },
-        { month: "March", desktop: 237, mobile: 120 },
-        { month: "April", desktop: 73, mobile: 190 },
-        { month: "May", desktop: 209, mobile: 130 },
-        { month: "June", desktop: 214, mobile: 140 },
+        { month: "January", total: 186, successful: 80 },
+        { month: "February", total: 305, successful: 200 },
+        { month: "March", total: 237, successful: 120 },
+        { month: "April", total: 73, successful: 190 },
+        { month: "May", total: 209, successful: 130 },
+        { month: "June", total: 214, successful: 140 },
     ]
 
     const chartConfig = {
@@ -46,8 +46,8 @@ export default function BarChartComponent() {
                     />
                     <ChartTooltip content={<ChartTooltipContent />} />
                     <ChartLegend content={<ChartLegendContent />} />
-                    <Bar dataKey="desktop" fill="var(--color-desktop)" radius={4} />
-                    <Bar dataKey="mobile" fill="var(--color-mobile)" radius={4} />
+                    <Bar dataKey="total" fill="var(--color-desktop)" radius={4} />
+                    <Bar dataKey="successful" fill="var(--color-mobile)" radius={4} />
                 </BarChart>
             </ChartContainer>
         </div>

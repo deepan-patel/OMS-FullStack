@@ -4,13 +4,13 @@ import { ColumnDef } from "@tanstack/react-table"
 import { Badge } from "@/components/ui/badge"
 import { MoreHorizontal } from "lucide-react"
 import Link from "next/link"
+import Image from "next/image"
 
-export type Payment = {
+export type User = {
     id: string
-    amount: number
-    status: "pending" | "processing" | "success" | "failed"
+    avatar: string
+    status: "active" | "inactive"
     fullName: string
-    userId: string
     email: string
 }
 
@@ -29,8 +29,9 @@ import { cn } from "@/lib/utils"
 import { ArrowUpDown } from "lucide-react"
 
 import { Checkbox } from "@/components/ui/checkbox"
+import { Avatar, AvatarFallback, AvatarImage } from "@/components/ui/avatar"
 
-export const columns: ColumnDef<Payment>[] = [
+export const columns: ColumnDef<User>[] = [
     {
         id: "select",
         header: ({ table }) => (
@@ -55,19 +56,17 @@ export const columns: ColumnDef<Payment>[] = [
     },
 
     {
-        accessorKey: "email",
-        header: ({ column }) => {
+        accessorKey: "avatar",
+        header: "Avatar",
+        cell: ({ row }) => {
+            const user = row.original;
             return (
-                <Button
-                    variant="ghost"
-                    onClick={() => column.toggleSorting(column.getIsSorted() === "asc")}
-                >
-                    Email
-                    <ArrowUpDown className="ml-2 h-4 w-4" />
-                </Button>
-            )
+                <Avatar>
+                    <AvatarImage src={user.avatar} />
+                    <AvatarFallback>{user.fullName.split(" ")[0].slice(0, 1).toUpperCase() + user.fullName.split(" ")[1].slice(0, 1).toUpperCase()}</AvatarFallback>
+                </Avatar>
+            );
         },
-
     },
     {
         accessorKey: "fullName",
@@ -83,6 +82,23 @@ export const columns: ColumnDef<Payment>[] = [
             )
         },
     },
+
+    {
+        accessorKey: "email",
+        header: ({ column }) => {
+            return (
+                <Button
+                    variant="ghost"
+                    onClick={() => column.toggleSorting(column.getIsSorted() === "asc")}
+                >
+                    Email
+                    <ArrowUpDown className="ml-2 h-4 w-4" />
+                </Button>
+            )
+        },
+
+    },
+
     {
         accessorKey: "status",
         header: "Status",
@@ -90,32 +106,18 @@ export const columns: ColumnDef<Payment>[] = [
             const status = row.getValue("status") as string
             return (
                 <Badge className={cn("text-white p-1 text-xs", {
-                    "bg-green-500": status === "success",
-                    "bg-red-500": status === "failed",
-                    "bg-yellow-500": status === "pending",
+                    "bg-green-500": status === "active",
+                    "bg-red-500": status === "inactive",
                 })}>{status.toUpperCase()}</Badge>
             )
         },
     },
-    {
-        accessorKey: "amount",
-        header: () => <div className="text-right">Amount</div>,
-        cell: ({ row }) => {
-            const amount = parseFloat(row.getValue("amount"))
-            const formatted = new Intl.NumberFormat("en-US", {
-                style: "currency",
-                currency: "CAD",
-            }).format(amount)
 
-            return <div className="text-right font-medium">{formatted}</div>
-        },
-
-    },
 
     {
         id: "actions",
         cell: ({ row }) => {
-            const payment = row.original
+            const user = row.original
 
             return (
                 <DropdownMenu>
@@ -128,17 +130,16 @@ export const columns: ColumnDef<Payment>[] = [
                     <DropdownMenuContent align="end">
                         <DropdownMenuLabel>Actions</DropdownMenuLabel>
                         <DropdownMenuItem
-                            onClick={() => navigator.clipboard.writeText(payment.id)}
+                            onClick={() => navigator.clipboard.writeText(user.id)}
                         >
-                            Copy payment ID
+                            Copy user ID
                         </DropdownMenuItem>
                         <DropdownMenuSeparator />
                         <DropdownMenuItem>
-                            <Link href={`/users/${payment.userId}`}>
-                                View customer
+                            <Link href={`/users/${user.id}`}>
+                                View user
                             </Link>
                         </DropdownMenuItem>
-                        <DropdownMenuItem>View payment details</DropdownMenuItem>
                     </DropdownMenuContent>
                 </DropdownMenu>
             )
