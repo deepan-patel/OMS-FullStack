@@ -45,7 +45,12 @@ import Image from "next/image";
 
 import { sidebarItems } from "@/data/DataConfig";
 import Link from "next/link";
-import { User, ChevronUp, Plus, Mail, Projector, Book, GitMerge, Boxes, Box, Container, ChevronDown } from "lucide-react"
+import { User, ChevronUp, Plus, Mail, Projector, Book, GitMerge, Boxes, Box, Container, ChevronDown, Package, UserRoundPen, Users, UserPlus, ShoppingBagIcon } from "lucide-react"
+import { Sheet, SheetTrigger } from "@/components/ui/sheet"
+import AddProductForm from "../forms/AddProductForm"
+import AddUserForm from "../forms/AddUserForm"
+import AddOrderForm from "../forms/AddOrder"
+import AddCategoryForm from "../forms/AddCategory"
 
 export default function AppSideBar() {
 
@@ -95,75 +100,119 @@ export default function AppSideBar() {
                         <SidebarMenu>
                             <SidebarMenuItem>
                                 <SidebarMenuButton asChild>
-                                    <Link href="/projects">
-                                        <Projector /><span>See all projects</span>
+                                    <Link href="/products">
+                                        <Package /><span>See All Products</span>
                                     </Link>
                                 </SidebarMenuButton>
                             </SidebarMenuItem>
+
                             <SidebarMenuItem>
                                 <SidebarMenuButton asChild>
-                                    <Link href="/projects">
-                                        <Plus /><span>Add Project</span>
+                                    <Sheet>
+                                        <SheetTrigger asChild>
+                                            <SidebarMenuButton asChild>
+                                                <Link href="#">
+                                                    <Plus />
+                                                    Add Product
+                                                </Link>
+                                            </SidebarMenuButton>
+                                        </SheetTrigger>
+                                        <AddProductForm />
+                                    </Sheet>
+                                </SidebarMenuButton>
+                            </SidebarMenuItem>
+
+                            <SidebarMenuItem>
+                                <SidebarMenuButton asChild>
+                                    <Sheet>
+                                        <SheetTrigger asChild>
+                                            <SidebarMenuButton asChild>
+                                                <Link href="#">
+                                                    <Plus />
+                                                    Add Category
+                                                </Link>
+                                            </SidebarMenuButton>
+                                        </SheetTrigger>
+                                        <AddCategoryForm />
+                                    </Sheet>
+                                </SidebarMenuButton>
+                            </SidebarMenuItem>
+
+                        </SidebarMenu>
+                    </SidebarGroupContent>
+                </SidebarGroup>
+
+
+                <SidebarGroup>
+                    <SidebarGroupLabel>Users</SidebarGroupLabel>
+                    <SidebarGroupAction>
+                        <Plus /> <span className="sr-only">Add User</span>
+                    </SidebarGroupAction>
+                    <SidebarGroupContent>
+                        <SidebarMenu>
+                            <SidebarMenuItem>
+                                <SidebarMenuButton asChild>
+                                    <Link href="/users">
+                                        <Users /><span>See All Users</span>
                                     </Link>
                                 </SidebarMenuButton>
                             </SidebarMenuItem>
+
+                            <SidebarMenuItem>
+                                <SidebarMenuButton asChild>
+                                    <Sheet>
+                                        <SheetTrigger asChild>
+                                            <SidebarMenuButton asChild>
+                                                <Link href="#">
+                                                    <UserPlus />
+                                                    Add User
+                                                </Link>
+                                            </SidebarMenuButton>
+                                        </SheetTrigger>
+                                        <AddUserForm />
+                                    </Sheet>
+                                </SidebarMenuButton>
+                            </SidebarMenuItem>
+
                         </SidebarMenu>
                     </SidebarGroupContent>
                 </SidebarGroup>
 
                 <SidebarGroup>
-                    <SidebarGroupLabel>Infrastructure</SidebarGroupLabel>
-                    <SidebarMenu>
-                        <SidebarMenuButton asChild>
-                            <Link href="/documentation">
-                                <Boxes /><span>Kubernetes </span>
-                            </Link>
-                        </SidebarMenuButton>
-
-                        <SidebarMenuSub>
-                            <SidebarMenuSubItem>
-                                <SidebarMenuSubButton>
-                                    <Container /> <span>Container</span>
-                                </SidebarMenuSubButton>
-                            </SidebarMenuSubItem>
-
-                            <SidebarMenuSubItem>
-                                <SidebarMenuSubButton>
-                                    <Box /> <span>Pods</span>
-                                </SidebarMenuSubButton>
-                            </SidebarMenuSubItem>
-                        </SidebarMenuSub>
-                    </SidebarMenu>
-                </SidebarGroup>
-
-                <Collapsible defaultOpen className="group/collapsible">
-
-                    <SidebarGroup>
-                        <SidebarGroupLabel asChild>
-                            <CollapsibleTrigger>
-                                Documentation
-                                <ChevronDown className="ml-auto transition-transform group-data-[state=open]/collapsible:rotate-180" />
-                            </CollapsibleTrigger>
-                        </SidebarGroupLabel>
-                        <CollapsibleContent>
-                            <SidebarMenu>
+                    <SidebarGroupLabel>Orders / Payments</SidebarGroupLabel>
+                    <SidebarGroupAction>
+                        <Plus /> <span className="sr-only">Add Order</span>
+                    </SidebarGroupAction>
+                    <SidebarGroupContent>
+                        <SidebarMenu>
+                            <SidebarMenuItem>
                                 <SidebarMenuButton asChild>
-                                    <Link href="/documentation">
-                                        <Book /><span>Getting Started</span>
+                                    <Link href="/users">
+                                        <ShoppingBagIcon /><span>See All Transactions</span>
                                     </Link>
                                 </SidebarMenuButton>
+                            </SidebarMenuItem>
 
-                                <SidebarMenuSub>
-                                    <SidebarMenuSubItem>
-                                        <SidebarMenuSubButton>
-                                            <GitMerge /> <span>Install and Deploy</span>
-                                        </SidebarMenuSubButton>
-                                    </SidebarMenuSubItem>
-                                </SidebarMenuSub>
-                            </SidebarMenu>
-                        </CollapsibleContent>
-                    </SidebarGroup>
-                </Collapsible>
+                            <SidebarMenuItem>
+                                <SidebarMenuButton asChild>
+                                    <Sheet>
+                                        <SheetTrigger asChild>
+                                            <SidebarMenuButton asChild>
+                                                <Link href="#">
+                                                    <Plus />
+                                                    Add Order
+                                                </Link>
+                                            </SidebarMenuButton>
+                                        </SheetTrigger>
+                                        <AddOrderForm />
+                                    </Sheet>
+                                </SidebarMenuButton>
+                            </SidebarMenuItem>
+
+                        </SidebarMenu>
+                    </SidebarGroupContent>
+                </SidebarGroup>
+
 
                 <SidebarGroup>
                     <SidebarGroupLabel>My Team</SidebarGroupLabel>

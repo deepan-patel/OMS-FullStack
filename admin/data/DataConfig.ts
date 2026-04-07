@@ -24,20 +24,10 @@ export const sidebarItems: SidebarItems = [
         icon: Calendar
     },
     {
-        title: "Products",
-        href: "/products",
-        icon: Package
-    },
-    {
         title: "Payments",
         href: "/payments",
         icon: DollarSign
     },
-    {
-        title: "Users",
-        href: "/users",
-        icon: Users
-    }
 
 ];
 
@@ -45,3 +35,10 @@ export const userRoles = [
     "user",
     "admin",
 ]
+
+export const orderStatus = [
+    "pending",
+    "processing",
+    "success",
+    "failed",
+];

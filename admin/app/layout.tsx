@@ -17,8 +17,8 @@ const ralewayHeading = Raleway({ subsets: ['latin'], variable: '--font-heading' 
 const inter = Inter({ subsets: ['latin'], variable: '--font-sans' });
 
 export const metadata: Metadata = {
-  title: "Exploring Shadcn UI",
-  description: "Exploring Shadcn UI",
+  title: "OMS FULL STACK ADMIN PAGE",
+  description: "OMS FULL STACK ADMIN PAGE",
 };
 
 export default async function RootLayout({
