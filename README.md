@@ -1,2 +1,2 @@
 # OMS-FullStack
-Recreating OMS from scratch
+Recreating OMS from scratch - front end 
